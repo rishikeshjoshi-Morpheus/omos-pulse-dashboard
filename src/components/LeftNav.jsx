@@ -324,14 +324,17 @@ function SubNavItem({ item, active, onClick }) {
 }
 
 /* ── Root LeftNav ─────────────────────────────────────────────── */
-export default function LeftNav() {
-  const [activeSection, setActiveSection] = useState('analytics');
-  const [expanded, setExpanded] = useState(true);
+export default function LeftNav({ activePage, onPageChange }) {
+  const [activeSection, setActiveSection] = useState(activePage ?? 'analytics');
+  const [expanded, setExpanded] = useState(activePage !== 'home');
 
   const section = NAV_SECTIONS.find(s => s.id === activeSection);
   const hasSubnav = section?.subnav?.length > 0;
 
   function handleSelect(id) {
+    // Notify parent for page-level routing
+    onPageChange?.(id);
+
     if (activeSection === id && expanded) {
       setExpanded(false);
     } else {
