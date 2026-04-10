@@ -1,0 +1,669 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Agent Chain v2 — Claude Code Skills Architecture</title>
+<link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&family=Montserrat:wght@500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --osmos-blue: #636CFF;
+  --osmos-navy: #2C266D;
+  --osmos-purple: #3E266D;
+  --osmos-mint: #89F1D9;
+  --osmos-lavender: #B1B5FF;
+  --osmos-bg-light: #F2F2FC;
+  --osmos-ink: #181818;
+  --osmos-ink-2: #595959;
+  --osmos-ink-3: #888888;
+  --osmos-border: #E9E9E9;
+  --osmos-white: #FFFFFF;
+  --osmos-btn-dark: #4849B6;
+  --osmos-gradient: linear-gradient(135deg, #2C266D 0%, #3E266D 55%, #4849B6 100%);
+  --font-display: 'Montserrat', sans-serif;
+  --font-body: 'Lato', sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: var(--font-body); color: var(--osmos-ink); background: var(--osmos-bg-light); line-height: 1.65; }
+
+.hero { background: var(--osmos-gradient); color: white; padding: 48px 40px 40px; text-align: center; }
+.hero .eyebrow { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.12em; color: var(--osmos-mint); margin-bottom: 10px; }
+.hero h1 { font-family: var(--font-display); font-size: 30px; font-weight: 700; margin-bottom: 10px; }
+.hero .subtitle { font-size: 15px; color: rgba(255,255,255,0.8); max-width: 700px; margin: 0 auto; }
+
+.container { max-width: 940px; margin: 0 auto; padding: 36px 24px; }
+h2 { font-family: var(--font-display); font-size: 21px; font-weight: 700; color: var(--osmos-navy); margin-bottom: 16px; }
+h3 { font-family: var(--font-display); font-size: 16px; font-weight: 600; color: var(--osmos-navy); margin-bottom: 8px; }
+p, li { font-size: 14px; color: var(--osmos-ink-2); }
+
+.card { background: var(--osmos-white); border: 1px solid var(--osmos-border); border-radius: 10px; padding: 24px; margin-bottom: 16px; }
+.section-divider { border: none; border-top: 2px solid var(--osmos-lavender); margin: 40px 0; opacity: 0.4; }
+
+/* Key insight banner */
+.insight-banner {
+  background: linear-gradient(135deg, #2C266D 0%, #4849B6 100%);
+  border-radius: 10px;
+  padding: 24px 28px;
+  margin-bottom: 24px;
+  color: white;
+}
+.insight-banner h3 { color: var(--osmos-mint); margin-bottom: 6px; }
+.insight-banner p { color: rgba(255,255,255,0.85); }
+
+/* Code blocks */
+.code-block {
+  background: #1e1e2e;
+  border-radius: 8px;
+  padding: 18px 20px;
+  font-family: var(--font-mono);
+  font-size: 12.5px;
+  color: #cdd6f4;
+  overflow-x: auto;
+  margin: 12px 0;
+  line-height: 1.7;
+}
+.code-block .comment { color: #6c7086; }
+.code-block .keyword { color: #cba6f7; }
+.code-block .string { color: #a6e3a1; }
+.code-block .fn { color: #89b4fa; }
+.code-block .type { color: #f9e2af; }
+.code-block .dim { color: #6c7086; }
+
+/* Agent cards */
+.agent-card {
+  background: var(--osmos-white);
+  border: 2px solid var(--osmos-border);
+  border-radius: 12px;
+  margin-bottom: 16px;
+  overflow: hidden;
+}
+.agent-card.highlight { border-color: var(--osmos-blue); }
+
+.agent-card-header {
+  display: flex;
+  align-items: center;
+  padding: 16px 24px;
+  gap: 12px;
+  border-bottom: 1px solid var(--osmos-border);
+  background: #FAFAFF;
+}
+.agent-num {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px; height: 30px;
+  border-radius: 50%;
+  background: var(--osmos-blue);
+  color: white;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 13px;
+  flex-shrink: 0;
+}
+.agent-name { font-family: var(--font-display); font-weight: 700; font-size: 15px; color: var(--osmos-navy); }
+.agent-tag { font-family: var(--font-mono); font-size: 11px; color: var(--osmos-blue); background: var(--osmos-bg-light); padding: 2px 8px; border-radius: 4px; margin-left: auto; }
+
+.agent-card-body { padding: 20px 24px; }
+.agent-card-body p { margin-bottom: 8px; }
+
+.tools-row { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 10px; }
+.tool-chip {
+  font-size: 11px;
+  font-weight: 600;
+  padding: 3px 10px;
+  border-radius: 16px;
+  border: 1px solid var(--osmos-lavender);
+  background: var(--osmos-bg-light);
+  color: var(--osmos-blue);
+}
+.tool-chip.green { background: #ECFDF5; border-color: #A7F3D0; color: #047857; }
+.tool-chip.orange { background: #FFF7ED; border-color: #FED7AA; color: #C2410C; }
+
+.arrow-connector { text-align: center; padding: 6px 0; color: var(--osmos-blue); font-size: 20px; }
+
+/* Tables */
+table { width: 100%; border-collapse: collapse; font-size: 13px; margin: 12px 0; }
+thead th { background: var(--osmos-btn-dark); color: white; font-family: var(--font-display); font-size: 11px; font-weight: 600; padding: 9px 14px; text-align: left; text-transform: uppercase; letter-spacing: 0.04em; }
+thead th:first-child { border-radius: 6px 0 0 0; }
+thead th:last-child { border-radius: 0 6px 0 0; }
+tbody td { padding: 9px 14px; border-bottom: 1px solid var(--osmos-border); vertical-align: top; }
+tbody tr:nth-child(even) { background: #F8F8FE; }
+
+/* Screen mapping section */
+.screen-card {
+  background: var(--osmos-white);
+  border: 1px solid var(--osmos-border);
+  border-radius: 10px;
+  padding: 20px;
+  margin-bottom: 12px;
+}
+.screen-card h4 {
+  font-family: var(--font-display);
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--osmos-navy);
+  margin-bottom: 8px;
+}
+.comp-list { list-style: none; padding: 0; }
+.comp-list li {
+  font-size: 13px;
+  padding: 4px 0;
+  display: flex;
+  gap: 8px;
+  align-items: baseline;
+}
+.comp-list .comp-name { font-family: var(--font-mono); font-size: 12px; color: var(--osmos-blue); font-weight: 500; min-width: 200px; }
+.comp-list .comp-use { color: var(--osmos-ink-3); }
+
+/* Input section */
+.input-item {
+  background: var(--osmos-white);
+  border: 1px solid var(--osmos-border);
+  border-radius: 10px;
+  padding: 16px 20px;
+  margin-bottom: 10px;
+  display: flex;
+  gap: 14px;
+  align-items: flex-start;
+}
+.input-status {
+  flex-shrink: 0;
+  width: 22px; height: 22px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  margin-top: 1px;
+}
+.input-status.done { background: #D1FAE5; color: #047857; }
+.input-status.need { background: #FEE2E2; color: #DC2626; }
+.input-status.optional { background: #E0E7FF; color: var(--osmos-blue); }
+.input-content h4 { font-family: var(--font-display); font-size: 13px; font-weight: 600; color: var(--osmos-navy); margin-bottom: 4px; }
+.input-content p { font-size: 13px; margin: 0; }
+
+.footer { text-align: center; padding: 28px; color: var(--osmos-ink-3); font-size: 12px; }
+.footer .wordmark { color: var(--osmos-blue); font-weight: 700; }
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <div class="eyebrow">Revised Architecture — Grounded in Your Actual Codebase</div>
+  <h1>Agent Chain v2: Claude Code Skills</h1>
+  <p class="subtitle">Five skills that chain inside Claude Code. No separate platform. You describe a screen, agents build it in Figma + React using your real <code>@rishikeshjoshi-morpheus/ui</code> library, then audit it for UX quality.</p>
+</div>
+
+<div class="container">
+
+<!-- ═══════════ KEY SHIFT ═══════════ -->
+<div class="insight-banner">
+  <h3>What Changed from v1</h3>
+  <p>After exploring your monorepo, three things became clear: (1) the UI library has 108 components already built — Table, Modal, Drawer, Steps, FileUpload, the whole lot; (2) the current app uses inline styles instead of library components — so Agent 3 also serves as a migration path; (3) since this runs inside Claude Code, the "frontend" is just the Claude Code prompt itself. No new UI needed.</p>
+</div>
+
+<!-- ═══════════ CODEBASE REALITY ═══════════ -->
+<h2>What We Found in Your Codebase</h2>
+
+<div class="card">
+  <h3>Component Library: @rishikeshjoshi-morpheus/ui</h3>
+  <p>108 components available, built on Chakra UI 3.33. All use compound pattern with dot notation (Table.Root, Modal.Content, etc.). Here are the ones that map directly to your Advertiser screens:</p>
+  <table>
+    <thead><tr><th>Component</th><th>Sub-components</th><th>Maps to (Advertiser Flow)</th></tr></thead>
+    <tbody>
+      <tr><td><strong>Table</strong></td><td>.Root .Header .Body .Row .Cell .ColumnHeader .ScrollArea</td><td>Main advertiser list, bulk upload preview</td></tr>
+      <tr><td><strong>Modal</strong></td><td>.Root .Content .Header .Body .Footer .Title .CloseTrigger</td><td>Add Rule, Add Advertiser, Bulk Upload, Change History</td></tr>
+      <tr><td><strong>FileUpload</strong></td><td>Root, Trigger, Dropzone, ItemGroup, ItemName, ItemPreview</td><td>Bulk Upload file picker</td></tr>
+      <tr><td><strong>Steps</strong></td><td>Root, Item, List, Indicator, Content, Next/PrevTrigger</td><td>Bulk upload multi-step flow</td></tr>
+      <tr><td><strong>Select</strong></td><td>Root + options array</td><td>Rule conditions (Field Name, operator dropdowns)</td></tr>
+      <tr><td><strong>Input</strong></td><td>Wrapped with Field (label, helperText, errorText)</td><td>Advertiser Name, Persona, rule values</td></tr>
+      <tr><td><strong>Button</strong></td><td>Standard Chakra props</td><td>Create Advertiser, Bulk Upload, Add/Cancel/Update</td></tr>
+      <tr><td><strong>Badge</strong></td><td>Standard</td><td>Status badges (Active, Edit links)</td></tr>
+      <tr><td><strong>Checkbox</strong></td><td>Standard</td><td>Row selection in table</td></tr>
+      <tr><td><strong>Pagination</strong></td><td>Root, Items, PrevTrigger, NextTrigger, PageText</td><td>Table pagination ("5 Active out of 5 shown total")</td></tr>
+      <tr><td><strong>Alert</strong></td><td>Standard</td><td>Info banner at top of Advertiser page</td></tr>
+      <tr><td><strong>Breadcrumb</strong></td><td>.Root .List .Item .Link .Separator</td><td>"Online Ad Management > Space World"</td></tr>
+      <tr><td><strong>Timeline</strong></td><td>Root, Item, Indicator, Content, Title</td><td>Change History modal</td></tr>
+      <tr><td><strong>Tabs</strong></td><td>.Root .List .Trigger .Content</td><td>Advertiser's Onboard Code tab</td></tr>
+      <tr><td><strong>Tag</strong></td><td>Standard</td><td>Category labels, rule tags</td></tr>
+      <tr><td><strong>Tooltip</strong></td><td>Standard</td><td>Info icons, column headers</td></tr>
+      <tr><td><strong>Drawer</strong></td><td>.Root .Content .Header .Body .Footer</td><td>Edit Rule side panel</td></tr>
+      <tr><td><strong>Menu</strong></td><td>.Root .Trigger .Content .Item .Separator</td><td>Action menu (Edit/Delete) per row</td></tr>
+      <tr><td><strong>Switch</strong></td><td>Standard</td><td>Auto-populate toggle, rule enable/disable</td></tr>
+      <tr><td><strong>EmptyState</strong></td><td>Root, Indicator, Content, Title, Description</td><td>Upload success illustration state</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<div class="card">
+  <h3>Current App Patterns (What Exists Today)</h3>
+  <p>Your app currently has a dashboard with StatCards, Charts (Recharts), and DataTables — all built with <strong>inline styles</strong>, not using the Morpheus UI library. The OsmosProvider + tokens.css are imported but the actual components aren't used yet. This means the agent chain also serves as a migration path to proper component usage.</p>
+</div>
+
+<hr class="section-divider">
+
+<!-- ═══════════ SCREEN MAPPING ═══════════ -->
+<h2>Your Wireframes → Component Mapping</h2>
+<p style="margin-bottom:16px;">Each screen from your screenshots, mapped to exact library components:</p>
+
+<div class="screen-card">
+  <h4>Screen 1: Advertisers Table (Main List View)</h4>
+  <ul class="comp-list">
+    <li><span class="comp-name">Breadcrumb.Root</span> <span class="comp-use">"Online Ad Management > Space World"</span></li>
+    <li><span class="comp-name">Alert</span> <span class="comp-use">Blue info banner with instructions text</span></li>
+    <li><span class="comp-name">Tabs.Root</span> <span class="comp-use">Tab bar: "Advertiser's Onboard Code"</span></li>
+    <li><span class="comp-name">Select</span> <span class="comp-use">"5 Active out of 5 shown total" filter</span></li>
+    <li><span class="comp-name">Button (variant=outline)</span> <span class="comp-use">"Bulk Upload" button</span></li>
+    <li><span class="comp-name">Button (colorPalette=green)</span> <span class="comp-use">"Create Advertiser" button</span></li>
+    <li><span class="comp-name">Table.Root</span> <span class="comp-use">Advertiser list with columns: ID, Store ID, Name, Persona, etc.</span></li>
+    <li><span class="comp-name">Checkbox</span> <span class="comp-use">Row selection checkboxes</span></li>
+    <li><span class="comp-name">Badge</span> <span class="comp-use">"Edit" action links per row</span></li>
+    <li><span class="comp-name">Pagination</span> <span class="comp-use">Bottom pagination controls</span></li>
+  </ul>
+</div>
+
+<div class="screen-card">
+  <h4>Screen 2: Bulk Upload Modal</h4>
+  <ul class="comp-list">
+    <li><span class="comp-name">Modal.Root + Modal.Content</span> <span class="comp-use">Full modal container with close button</span></li>
+    <li><span class="comp-name">Steps.Root</span> <span class="comp-use">Implicit: two-step flow (upload → preview)</span></li>
+    <li><span class="comp-name">Badge (variant=outline)</span> <span class="comp-use">"Sample_Template.xlsx" download link</span></li>
+    <li><span class="comp-name">FileUpload.Dropzone</span> <span class="comp-use">"Upload your files here" drag area</span></li>
+    <li><span class="comp-name">Tabs.Root</span> <span class="comp-use">"Basic Format: Links with a directory" / "Root Logic & Rule Creation" tabs</span></li>
+    <li><span class="comp-name">Table.Root</span> <span class="comp-use">Preview table after file upload</span></li>
+    <li><span class="comp-name">EmptyState</span> <span class="comp-use">Success illustration with "Uploaded Successfully" message</span></li>
+  </ul>
+</div>
+
+<div class="screen-card">
+  <h4>Screen 3: Add Rule Modal</h4>
+  <ul class="comp-list">
+    <li><span class="comp-name">Modal.Root</span> <span class="comp-use">Rule creation modal</span></li>
+    <li><span class="comp-name">Alert</span> <span class="comp-use">Blue instruction text at top with "Learn more" link</span></li>
+    <li><span class="comp-name">Switch</span> <span class="comp-use">"Apply Condition" toggle</span></li>
+    <li><span class="comp-name">Select</span> <span class="comp-use">"Brand Name" field selector dropdown</span></li>
+    <li><span class="comp-name">Select</span> <span class="comp-use">Operator dropdown ("=" etc.)</span></li>
+    <li><span class="comp-name">Input</span> <span class="comp-use">Value input (freetext "Nike")</span></li>
+    <li><span class="comp-name">Button (variant=ghost)</span> <span class="comp-use">"+Add" button for additional conditions</span></li>
+    <li><span class="comp-name">Button</span> <span class="comp-use">Cancel / Create action buttons</span></li>
+  </ul>
+</div>
+
+<div class="screen-card">
+  <h4>Screen 4: Edit Rule (Multi-condition)</h4>
+  <ul class="comp-list">
+    <li><span class="comp-name">Modal.Root (size=lg)</span> <span class="comp-use">Wider modal for multiple conditions</span></li>
+    <li><span class="comp-name">Alert</span> <span class="comp-use">Rule description + "Advanced Suggestion" link</span></li>
+    <li><span class="comp-name">Switch</span> <span class="comp-use">"Apply Condition" toggle</span></li>
+    <li><span class="comp-name">Repeating row pattern:</span> <span class="comp-use">Each condition = Select + Select + Input + delete icon</span></li>
+    <li><span class="comp-name">Button</span> <span class="comp-use">"Update" primary action</span></li>
+  </ul>
+</div>
+
+<div class="screen-card">
+  <h4>Screen 5: Change History Modal</h4>
+  <ul class="comp-list">
+    <li><span class="comp-name">Modal.Root</span> <span class="comp-use">"Change History" modal</span></li>
+    <li><span class="comp-name">Timeline.Root</span> <span class="comp-use">Grouped history entries by date</span></li>
+    <li><span class="comp-name">Timeline.Item</span> <span class="comp-use">Each change entry with timestamp</span></li>
+    <li><span class="comp-name">Badge</span> <span class="comp-use">"Deactivated" / "Activated" status badges (red/green)</span></li>
+    <li><span class="comp-name">Tag</span> <span class="comp-use">Field labels: "Advertiser ID", "Category", "Product Spend"</span></li>
+  </ul>
+</div>
+
+<div class="screen-card">
+  <h4>Screen 6: Add Advertiser Modal</h4>
+  <ul class="comp-list">
+    <li><span class="comp-name">Modal.Root (size=sm)</span> <span class="comp-use">Simple form modal</span></li>
+    <li><span class="comp-name">Input (required)</span> <span class="comp-use">"Store(s) ID" field</span></li>
+    <li><span class="comp-name">Input (required)</span> <span class="comp-use">"Advertiser Name" field</span></li>
+    <li><span class="comp-name">Input (required)</span> <span class="comp-use">"Persona" field</span></li>
+    <li><span class="comp-name">Button</span> <span class="comp-use">Cancel / Add action buttons</span></li>
+  </ul>
+</div>
+
+<hr class="section-divider">
+
+<!-- ═══════════ AGENT CHAIN ═══════════ -->
+<h2>The 5 Skills (Claude Code Chain)</h2>
+<p style="margin-bottom:20px;">Each skill lives in <code>.claude/skills/</code>. You invoke the first one — it chains to the next automatically. Or you invoke any skill individually when you only need one step.</p>
+
+<!-- Agent 1 -->
+<div class="agent-card highlight">
+  <div class="agent-card-header">
+    <span class="agent-num">1</span>
+    <span class="agent-name">Screen Interpreter</span>
+    <span class="agent-tag">screen-interpreter/SKILL.md</span>
+  </div>
+  <div class="agent-card-body">
+    <p><strong>Trigger:</strong> "interpret this screen", "what components do I need for this", or any image/URL/text input describing a UI</p>
+    <p><strong>What it does:</strong> Accepts a sketch photo, Figma URL, or text brief. Uses vision (for images) or Figma MCP <code>use_figma</code> (for URLs) to analyze the input. Outputs a structured <strong>Screen Spec</strong> — a JSON object listing every zone (header, sidebar, content areas, modals) with the component intent for each.</p>
+    <p><strong>Real example from your wireframes:</strong></p>
+    <div class="code-block">
+<span class="comment">// Screen Spec output for "Advertisers Table" screenshot</span>
+{
+  <span class="string">"screenType"</span>: <span class="string">"data-management-list"</span>,
+  <span class="string">"zones"</span>: {
+    <span class="string">"breadcrumb"</span>: { <span class="string">"type"</span>: <span class="string">"Breadcrumb"</span>, <span class="string">"items"</span>: [<span class="string">"Online Ad Management"</span>, <span class="string">"Space World"</span>] },
+    <span class="string">"infoBanner"</span>: { <span class="string">"type"</span>: <span class="string">"Alert"</span>, <span class="string">"status"</span>: <span class="string">"info"</span>, <span class="string">"text"</span>: <span class="string">"Edit Advertiser info..."</span> },
+    <span class="string">"toolbar"</span>: {
+      <span class="string">"left"</span>: { <span class="string">"type"</span>: <span class="string">"Select"</span>, <span class="string">"purpose"</span>: <span class="string">"status-filter"</span> },
+      <span class="string">"right"</span>: [
+        { <span class="string">"type"</span>: <span class="string">"Button"</span>, <span class="string">"variant"</span>: <span class="string">"outline"</span>, <span class="string">"label"</span>: <span class="string">"Bulk Upload"</span> },
+        { <span class="string">"type"</span>: <span class="string">"Button"</span>, <span class="string">"variant"</span>: <span class="string">"solid"</span>, <span class="string">"label"</span>: <span class="string">"Create Advertiser"</span> }
+      ]
+    },
+    <span class="string">"dataTable"</span>: {
+      <span class="string">"type"</span>: <span class="string">"Table"</span>,
+      <span class="string">"columns"</span>: [<span class="string">"checkbox"</span>, <span class="string">"Advertiser ID"</span>, <span class="string">"Store ID"</span>, <span class="string">"Advertiser Name"</span>, ...],
+      <span class="string">"features"</span>: [<span class="string">"row-selection"</span>, <span class="string">"sortable"</span>, <span class="string">"action-column"</span>]
+    },
+    <span class="string">"pagination"</span>: { <span class="string">"type"</span>: <span class="string">"Pagination"</span> }
+  },
+  <span class="string">"modals"</span>: [<span class="string">"BulkUpload"</span>, <span class="string">"AddAdvertiser"</span>, <span class="string">"AddRule"</span>, <span class="string">"ChangeHistory"</span>]
+}
+    </div>
+    <div class="tools-row">
+      <span class="tool-chip">Vision (native)</span>
+      <span class="tool-chip">Figma MCP (read-only)</span>
+      <span class="tool-chip">design-skill (pattern matching)</span>
+    </div>
+  </div>
+</div>
+
+<div class="arrow-connector">↓ passes Screen Spec JSON</div>
+
+<!-- Agent 2 -->
+<div class="agent-card highlight">
+  <div class="agent-card-header">
+    <span class="agent-num">2</span>
+    <span class="agent-name">Figma Wireframer</span>
+    <span class="agent-tag">figma-wireframer/SKILL.md</span>
+  </div>
+  <div class="agent-card-body">
+    <p><strong>Trigger:</strong> "wireframe this in Figma", "create a Figma mockup", or auto-chained from Agent 1</p>
+    <p><strong>What it does:</strong> Takes the Screen Spec and builds a proper Figma file via <code>create_new_file</code> + <code>use_figma</code>. Creates frames with auto-layout matching the zone structure. Uses <code>search_design_system</code> to pull in existing Figma components from your Design-System-OS file. Applies Osmos brand tokens (navy gradient heroes, #F2F2FC backgrounds, Montserrat headings, 10px border-radius cards).</p>
+    <p><strong>Key detail:</strong> This agent knows your Figma design system file key (<code>58jL2Gbe53rBhxOysvHM82</code>) and searches it before creating anything from scratch. If a component exists in the library, it imports it via <code>importComponentByKeyAsync</code>.</p>
+    <p><strong>Output:</strong> Figma file URL + PNG screenshot + component map (which Figma component was used where)</p>
+    <div class="tools-row">
+      <span class="tool-chip green">create_new_file</span>
+      <span class="tool-chip green">use_figma</span>
+      <span class="tool-chip green">search_design_system</span>
+      <span class="tool-chip">osmos-brand</span>
+    </div>
+  </div>
+</div>
+
+<div class="arrow-connector">↓ passes Figma URL + component map</div>
+
+<!-- Agent 3 -->
+<div class="agent-card highlight">
+  <div class="agent-card-header">
+    <span class="agent-num">3</span>
+    <span class="agent-name">React Implementer</span>
+    <span class="agent-tag">react-implementer/SKILL.md</span>
+  </div>
+  <div class="agent-card-body">
+    <p><strong>Trigger:</strong> "implement this screen", "build the React for this", or auto-chained from Agent 2</p>
+    <p><strong>What it does:</strong> Takes the Screen Spec + component map and generates production React code using <strong>only</strong> <code>@rishikeshjoshi-morpheus/ui</code> components. Zero inline styles. All compound components use dot notation. Wraps in OsmosProvider.</p>
+    <p><strong>Example output for your Advertiser flow:</strong></p>
+    <div class="code-block">
+<span class="keyword">import</span> {
+  Table, Modal, Button, Input, Select, Badge,
+  Checkbox, Alert, Breadcrumb, Pagination,
+  FileUpload, Steps, Timeline, Tag, Switch
+} <span class="keyword">from</span> <span class="string">'@rishikeshjoshi-morpheus/ui'</span>;
+
+<span class="keyword">export default function</span> <span class="fn">AdvertisersPage</span>() {
+  <span class="keyword">const</span> [showBulkUpload, setShowBulkUpload] = <span class="fn">useState</span>(<span class="keyword">false</span>);
+  <span class="keyword">const</span> [showAddAdvertiser, setShowAddAdvertiser] = <span class="fn">useState</span>(<span class="keyword">false</span>);
+
+  <span class="keyword">return</span> (
+    &lt;<span class="type">Box</span>&gt;
+      &lt;<span class="type">Breadcrumb.Root</span>&gt;
+        &lt;<span class="type">Breadcrumb.List</span>&gt;
+          &lt;<span class="type">Breadcrumb.Item</span>&gt;
+            &lt;<span class="type">Breadcrumb.Link</span>&gt;Online Ad Management&lt;/<span class="type">Breadcrumb.Link</span>&gt;
+          &lt;/<span class="type">Breadcrumb.Item</span>&gt;
+          &lt;<span class="type">Breadcrumb.Item</span>&gt;Space World&lt;/<span class="type">Breadcrumb.Item</span>&gt;
+        &lt;/<span class="type">Breadcrumb.List</span>&gt;
+      &lt;/<span class="type">Breadcrumb.Root</span>&gt;
+
+      &lt;<span class="type">Alert</span> status=<span class="string">"info"</span>&gt;Edit Advertiser info...&lt;/<span class="type">Alert</span>&gt;
+
+      &lt;<span class="type">Flex</span> justify=<span class="string">"space-between"</span> p=<span class="string">"4"</span>&gt;
+        &lt;<span class="type">Button</span> variant=<span class="string">"outline"</span> onClick={() =&gt; setShowBulkUpload(<span class="keyword">true</span>)}&gt;
+          Bulk Upload
+        &lt;/<span class="type">Button</span>&gt;
+        &lt;<span class="type">Button</span> colorPalette=<span class="string">"green"</span> onClick={() =&gt; setShowAddAdvertiser(<span class="keyword">true</span>)}&gt;
+          Create Advertiser
+        &lt;/<span class="type">Button</span>&gt;
+      &lt;/<span class="type">Flex</span>&gt;
+
+      &lt;<span class="type">Table.Root</span>&gt;...&lt;/<span class="type">Table.Root</span>&gt;
+      <span class="comment">{/* Full implementation with all modals */}</span>
+    &lt;/<span class="type">Box</span>&gt;
+  );
+}
+    </div>
+    <p><strong>Key rules baked into this skill:</strong></p>
+    <p>No <code>&lt;div&gt;</code>, <code>&lt;button&gt;</code>, <code>&lt;input&gt;</code>, <code>&lt;table&gt;</code> — always use library equivalents. No <code>style={{}}</code> — use Chakra style props (<code>p="4"</code>, <code>color="fg.muted"</code>). Sub-components via dot notation only (<code>Modal.Body</code>, never <code>import { ModalBody }</code>).</p>
+    <div class="tools-row">
+      <span class="tool-chip">@rishikeshjoshi-morpheus/ui (108 components)</span>
+      <span class="tool-chip">Write tool (file creation)</span>
+      <span class="tool-chip">Bash (pnpm dev for preview)</span>
+    </div>
+  </div>
+</div>
+
+<div class="arrow-connector">↓ passes React code + preview screenshot</div>
+
+<!-- Agent 4 -->
+<div class="agent-card highlight">
+  <div class="agent-card-header">
+    <span class="agent-num">4</span>
+    <span class="agent-name">UX Auditor</span>
+    <span class="agent-tag">ux-auditor/SKILL.md</span>
+  </div>
+  <div class="agent-card-body">
+    <p><strong>Trigger:</strong> "audit this screen", "check UX", "is this good enough", or auto-chained from Agent 3</p>
+    <p><strong>What it does:</strong> Reviews the Figma screenshot + React code against the Osmos-specific UX Honeycomb. Produces a scored HTML report. For your Advertisers flow, it would flag things like:</p>
+    <table>
+      <thead><tr><th>Dimension</th><th>Score</th><th>Finding (Example)</th></tr></thead>
+      <tbody>
+        <tr><td>Useful (20%)</td><td>A</td><td>Directly serves advertiser onboarding workflow — core retail media task</td></tr>
+        <tr><td>Usable (20%)</td><td>B</td><td>Bulk upload is 3+ steps; consider single-step drag-drop with auto-detect</td></tr>
+        <tr><td>Findable (15%)</td><td>A</td><td>Breadcrumb hierarchy clear; accessible from sidebar nav</td></tr>
+        <tr><td>Accessible (15%)</td><td>C</td><td>Table row selection missing aria-label; "Edit" links need distinct labels per row</td></tr>
+        <tr><td>Desirable (10%)</td><td>B</td><td>Success illustration in bulk upload is good; table styling could be more premium</td></tr>
+        <tr><td>Credible (10%)</td><td>B</td><td>Change History adds trust; timestamps present; suggest adding "last synced" indicator</td></tr>
+        <tr><td>Valuable (10%)</td><td>A</td><td>Advertiser management is upstream of all campaign revenue — directly M%G-aligned</td></tr>
+      </tbody>
+    </table>
+    <p style="margin-top:8px;">Also generates specific fix recommendations: code patches, component swaps, flow restructuring suggestions.</p>
+    <div class="tools-row">
+      <span class="tool-chip">design-skill (99 UX rules)</span>
+      <span class="tool-chip orange">osmos-pmm (business alignment)</span>
+      <span class="tool-chip">osmos-brand (visual consistency)</span>
+      <span class="tool-chip">Vision (screenshot analysis)</span>
+    </div>
+  </div>
+</div>
+
+<div class="arrow-connector">↓ passes audit report + fix recommendations</div>
+
+<!-- Agent 5 -->
+<div class="agent-card">
+  <div class="agent-card-header">
+    <span class="agent-num">5</span>
+    <span class="agent-name">Orchestrator</span>
+    <span class="agent-tag">design-orchestrator/SKILL.md</span>
+  </div>
+  <div class="agent-card-body">
+    <p><strong>Trigger:</strong> "build this screen end to end", "full pipeline", or invoked when you want the whole chain</p>
+    <p><strong>What it does:</strong> Spins up Agents 1→4 in sequence using Claude Code's <code>Agent</code> tool. If Agent 4's audit returns any dimension below B, it routes the fix back to the right upstream agent. Packages the final deliverables.</p>
+    <p><strong>How it chains in Claude Code:</strong></p>
+    <div class="code-block">
+<span class="comment">// Inside design-orchestrator/SKILL.md — the chain logic</span>
+<span class="comment">// Step 1: Interpret the input</span>
+<span class="keyword">Agent</span>(skill: <span class="string">"screen-interpreter"</span>, input: user_image_or_text)
+  → screen_spec.json
+
+<span class="comment">// Step 2: Build Figma wireframe</span>
+<span class="keyword">Agent</span>(skill: <span class="string">"figma-wireframer"</span>, input: screen_spec.json)
+  → figma_url + component_map
+
+<span class="comment">// Step 3: Generate React code</span>
+<span class="keyword">Agent</span>(skill: <span class="string">"react-implementer"</span>, input: screen_spec + component_map)
+  → AdvertisersPage.jsx + preview
+
+<span class="comment">// Step 4: Audit UX</span>
+<span class="keyword">Agent</span>(skill: <span class="string">"ux-auditor"</span>, input: screenshot + code + spec)
+  → audit_report.html
+
+<span class="comment">// Step 5: Fix loop (if any dimension &lt; B)</span>
+<span class="keyword">if</span> audit.lowest_score < <span class="string">"B"</span>:
+  route fixes → re-run affected agent → re-audit
+    </div>
+    <div class="tools-row">
+      <span class="tool-chip">Agent tool (sub-agent spawning)</span>
+      <span class="tool-chip">All upstream skills</span>
+      <span class="tool-chip">present_files (deliverable handoff)</span>
+    </div>
+  </div>
+</div>
+
+<hr class="section-divider">
+
+<!-- ═══════════ HOW TO INVOKE ═══════════ -->
+<h2>How You'll Actually Use This</h2>
+
+<div class="card">
+  <h3>Option A: Full Pipeline (Most Common)</h3>
+  <p>Open Claude Code. Drop an image or type a brief. The orchestrator skill triggers and runs the full chain:</p>
+  <div class="code-block">
+<span class="dim">You:</span> <span class="string">"Build the Advertisers management screen. Here's the wireframe."</span> [attaches image]
+
+<span class="dim">Claude:</span> <span class="comment">// Triggers design-orchestrator skill</span>
+→ Spawns screen-interpreter agent (analyzes image)
+→ Spawns figma-wireframer agent (creates Figma file)
+→ Spawns react-implementer agent (writes AdvertisersPage.jsx)
+→ Spawns ux-auditor agent (scores and recommends)
+→ Returns: Figma link + React files + audit report
+  </div>
+</div>
+
+<div class="card">
+  <h3>Option B: Individual Skills (Targeted Use)</h3>
+  <p>Invoke any skill directly when you only need one step:</p>
+  <div class="code-block">
+<span class="dim">You:</span> <span class="string">"Audit this Figma screen for UX"</span> [pastes Figma URL]
+<span class="dim">Claude:</span> <span class="comment">// Only triggers ux-auditor skill</span>
+→ Reads Figma via MCP → runs honeycomb audit → returns report
+
+<span class="dim">You:</span> <span class="string">"Implement this wireframe in React"</span> [pastes Figma URL]
+<span class="dim">Claude:</span> <span class="comment">// Only triggers react-implementer skill</span>
+→ Reads Figma → maps components → writes .jsx files
+  </div>
+</div>
+
+<div class="card">
+  <h3>Option C: Fix-and-Iterate</h3>
+  <p>After the audit, ask for specific fixes. The auditor re-routes to the right agent:</p>
+  <div class="code-block">
+<span class="dim">You:</span> <span class="string">"Fix the accessibility issues from the audit"</span>
+<span class="dim">Claude:</span> <span class="comment">// Re-invokes react-implementer with specific patches</span>
+→ Adds aria-labels to table rows
+→ Fixes color contrast on muted text
+→ Re-runs audit to verify
+  </div>
+</div>
+
+<hr class="section-divider">
+
+<!-- ═══════════ UPDATED INPUTS ═══════════ -->
+<h2>What We Still Need From You</h2>
+<p style="margin-bottom:16px;">Updated based on what we already found in the codebase:</p>
+
+<div class="input-item">
+  <div class="input-status done">✓</div>
+  <div class="input-content">
+    <h4>Component Library</h4>
+    <p>Found: <code>@rishikeshjoshi-morpheus/ui</code> with 108 components, Chakra 3.33 foundation. All APIs documented.</p>
+  </div>
+</div>
+
+<div class="input-item">
+  <div class="input-status done">✓</div>
+  <div class="input-content">
+    <h4>Sample Wireframes</h4>
+    <p>Your 7 Advertiser flow screenshots are our first test case. Covers: table, modals, forms, upload, history, rules.</p>
+  </div>
+</div>
+
+<div class="input-item">
+  <div class="input-status done">✓</div>
+  <div class="input-content">
+    <h4>App Patterns</h4>
+    <p>Found: OsmosProvider setup, routing via state, existing DataTable/Chart/StatCard patterns.</p>
+  </div>
+</div>
+
+<div class="input-item">
+  <div class="input-status need">!</div>
+  <div class="input-content">
+    <h4>Figma PAT + Plan Key</h4>
+    <p>Required for Agent 2 (Wireframer) to create/read Figma files. Run <code>whoami</code> via Figma MCP to get the plan key. Share the PAT securely.</p>
+  </div>
+</div>
+
+<div class="input-item">
+  <div class="input-status need">!</div>
+  <div class="input-content">
+    <h4>Figma Design System File Confirmation</h4>
+    <p>Is <code>58jL2Gbe53rBhxOysvHM82</code> still the active design system file? Agent 2 uses <code>search_design_system</code> against this file to pull existing Figma components instead of rebuilding them.</p>
+  </div>
+</div>
+
+<div class="input-item">
+  <div class="input-status optional">?</div>
+  <div class="input-content">
+    <h4>Gold Standard + Bad Example Screens</h4>
+    <p>Any 2-3 screens you consider well-designed (or poorly designed) in Localium Pulse. Used to calibrate the UX Auditor's scoring sensitivity. Not a blocker — we can calibrate iteratively.</p>
+  </div>
+</div>
+
+<div class="input-item">
+  <div class="input-status optional">?</div>
+  <div class="input-content">
+    <h4>User Personas + Core Workflows</h4>
+    <p>Who uses Pulse? (Ad ops managers? Retail media directors?) And what are the top 3-5 workflows? This makes the "Useful" and "Usable" audit dimensions much more accurate. Can be added later.</p>
+  </div>
+</div>
+
+<hr class="section-divider">
+
+<!-- ═══════════ BUILD PLAN ═══════════ -->
+<h2>Build Plan</h2>
+<div class="card">
+  <h3>Phase 1: Right Now</h3>
+  <p>Build skills 1 (Screen Interpreter) and 3 (React Implementer) — these don't need Figma access. Test against your Advertiser wireframes. We can generate the React code for the Advertisers flow today.</p>
+</div>
+<div class="card">
+  <h3>Phase 2: With Figma PAT</h3>
+  <p>Build skill 2 (Figma Wireframer). Connect to your design system. Test the Interpreter → Wireframer → Implementer chain end-to-end.</p>
+</div>
+<div class="card">
+  <h3>Phase 3: UX Layer</h3>
+  <p>Build skill 4 (UX Auditor) with the Osmos honeycomb. Calibrate against gold/bad examples. Build skill 5 (Orchestrator) to tie it all together. Run the full chain on 3+ real screen requests.</p>
+</div>
+
+</div>
+
+<div class="footer">
+  <span class="wordmark">osmos</span> · Agent Chain v2 — Claude Code Skills · April 2026
+</div>
+
+</body>
+</html>

@@ -1,5 +1,17 @@
 # Claude/AI Assistant Guide for shared-ui
 
+## Skill Invocation Protocol
+
+**Before calling any skill via the Skill tool, you MUST first tell the user:**
+1. Which skill you are about to invoke (by name)
+2. Why you are invoking it — what it will do and what input you're passing to it
+
+Example format:
+> "Calling **screen-interpreter** — to parse your image into a structured Screen Spec JSON that the rest of the pipeline can consume."
+> "Calling **ux-auditor** — the implementation is done and I need to score it against the UX Honeycomb before delivering the final result."
+
+Never call a skill silently. Always announce first, then invoke.
+
 This file serves as an index for AI assistants (like Claude) to understand the project structure and find relevant documentation.
 
 > **Building any UI?** Read `.claude/component-index.md` FIRST — it lists all 113 available components with props, variants, sizes, and code examples. Never write custom HTML/CSS when an Osmos component exists.

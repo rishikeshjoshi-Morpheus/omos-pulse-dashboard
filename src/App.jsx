@@ -8,6 +8,7 @@ import DeviceTable from './components/DeviceTable';
 import ReferrerTable from './components/ReferrerTable';
 import GeoTable from './components/GeoTable';
 import HomePage from './components/HomePage';
+import AdvertisersPage from './components/AdvertisersPage';
 
 /* ── Analytics dashboard (the original page) ─────────────────── */
 function AnalyticsDashboard() {
@@ -28,15 +29,23 @@ function AnalyticsDashboard() {
 
 /* ── Root ─────────────────────────────────────────────────────── */
 export default function App() {
-  const [activePage, setActivePage] = useState('analytics');
+  const [activePage, setActivePage] = useState('control-center');
+
+  function renderPage() {
+    switch (activePage) {
+      case 'home':
+        return <HomePage />;
+      case 'control-center':
+        return <AdvertisersPage />;
+      default:
+        return <AnalyticsDashboard />;
+    }
+  }
 
   return (
     <div style={{ display: 'flex', minHeight: '100vh', background: '#EDF0F5' }}>
       <LeftNav activePage={activePage} onPageChange={setActivePage} />
-
-      {activePage === 'home'
-        ? <HomePage />
-        : <AnalyticsDashboard />}
+      {renderPage()}
     </div>
   );
 }
