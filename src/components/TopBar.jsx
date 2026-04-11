@@ -6,8 +6,9 @@ function IconBtn({ children, title }) {
       title={title}
       aria-label={title}
       style={{
-        width: 36, height: 36,
-        display: 'flex', alignItems: 'center', justifyContent: 'center',
+        width: 44, height: 44,
+        display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center',
+        gap: 2,
         background: '#fff', border: '1px solid #DEDEDE',
         borderRadius: 8, cursor: 'pointer', color: '#555', flexShrink: 0,
         transition: 'background 0.12s',
@@ -15,10 +16,13 @@ function IconBtn({ children, title }) {
       onMouseEnter={e => e.currentTarget.style.background = '#F5F5F8'}
       onMouseLeave={e => e.currentTarget.style.background = '#fff'}
     >
-      <svg width="16" height="16" viewBox="0 0 24 24" fill="none"
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none"
         stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
         {children}
       </svg>
+      <span style={{ fontSize: 8, color: '#999', fontWeight: 500, lineHeight: 1, letterSpacing: 0.2 }}>
+        {title}
+      </span>
     </button>
   );
 }

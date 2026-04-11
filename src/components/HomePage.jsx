@@ -39,7 +39,7 @@ function DownloadIcon() {
 }
 
 /* ── Stat card ────────────────────────────────────────────────── */
-function StatCard({ label, value, compValue, compPct, currency }) {
+function StatCard({ label, value, compValue, compPct }) {
   const isPositive = compPct >= 0;
   const isEmpty = value === '0' || value === '0%';
   return (
@@ -65,11 +65,11 @@ function StatCard({ label, value, compValue, compPct, currency }) {
       ) : (
         <div style={{ display: 'flex', alignItems: 'baseline', justifyContent: 'space-between', gap: 8 }}>
           <span style={{ fontSize: 18, fontWeight: 700, color: TEXT_HI, letterSpacing: '-0.3px' }}>
-            {currency && <span style={{ fontSize: 13 }}>{currency}</span>}{value}
+            {value}
           </span>
           <div style={{ display: 'flex', alignItems: 'baseline', gap: 4 }}>
             <span style={{ fontSize: 12, color: TEXT_MID }}>
-              {currency && <span style={{ fontSize: 11 }}>{currency}</span>}{compValue}
+              {compValue}
             </span>
             <span style={{ fontSize: 11, fontWeight: 600, color: isPositive ? GREEN : RED }}>
               ({isPositive ? '+' : ''}{compPct}%)
@@ -335,15 +335,21 @@ function HomeTopBar() {
       {/* Right */}
       <div style={{ display: 'flex', alignItems: 'center', gap: 8, flexShrink: 0 }}>
         {[
-          <><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></>,
-          <><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></>,
-          <><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></>,
-        ].map((svg, i) => (
-          <button key={i} style={{
-            width: 36, height: 36, display: 'flex', alignItems: 'center', justifyContent: 'center',
-            background: WHITE, border: `1px solid ${BORDER}`, borderRadius: 8, cursor: 'pointer', color: '#555',
-          }}>
+          { svg: <><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></>, label: 'Theme' },
+          { svg: <><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></>, label: 'Search' },
+          { svg: <><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></>, label: 'Users' },
+        ].map(({ svg, label }) => (
+          <button key={label} aria-label={label} title={label} style={{
+            width: 44, height: 44, display: 'flex', flexDirection: 'column',
+            alignItems: 'center', justifyContent: 'center', gap: 2,
+            background: WHITE, border: `1px solid ${BORDER}`, borderRadius: 8,
+            cursor: 'pointer', color: '#555', transition: 'background 0.12s',
+          }}
+            onMouseEnter={e => e.currentTarget.style.background = '#F5F5F8'}
+            onMouseLeave={e => e.currentTarget.style.background = WHITE}
+          >
             <Icon size={15}>{svg}</Icon>
+            <span style={{ fontSize: 8, color: '#999', fontWeight: 500, lineHeight: 1, letterSpacing: 0.2 }}>{label}</span>
           </button>
         ))}
 
@@ -368,12 +374,12 @@ function HomeTopBar() {
 /* ── Main export ──────────────────────────────────────────────── */
 export default function HomePage() {
   const STATS = [
-    { label: 'M%G',           value: '0%',   compValue: '0%',  compPct: 0  },
-    { label: 'Ad Revenue',    value: '0',    compValue: '0',   compPct: 0,  currency: '₹' },
-    { label: 'Ad Impressions',value: '0',    compValue: '0',   compPct: 0  },
-    { label: 'Ad Clicks',     value: '0',    compValue: '0',   compPct: 0  },
-    { label: 'ROAS',          value: '0',    compValue: '0',   compPct: 0  },
-    { label: 'Attributed GMV',value: '0',    compValue: '0',   compPct: 0,  currency: '₹' },
+    { label: 'M%G',               value: '0%',  compValue: '0%',  compPct: 0 },
+    { label: 'Ad Revenue (INR)',  value: '0',   compValue: '0',   compPct: 0 },
+    { label: 'Ad Impressions',   value: '0',   compValue: '0',   compPct: 0 },
+    { label: 'Ad Clicks',        value: '0',   compValue: '0',   compPct: 0 },
+    { label: 'ROAS',             value: '0',   compValue: '0',   compPct: 0 },
+    { label: 'Attributed GMV (INR)', value: '0', compValue: '0', compPct: 0 },
   ];
 
   return (

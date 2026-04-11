@@ -339,9 +339,11 @@ export default function LeftNav({ activePage, onPageChange }) {
     // Notify parent for page-level routing
     onPageChange?.(id);
 
-    if (activeSection === id && expanded) {
-      setExpanded(false);
+    if (activeSection === id) {
+      // Same section — close if open, stay closed if already closed (no accidental reopen)
+      if (expanded) setExpanded(false);
     } else {
+      // New section — navigate and auto-open panel if it has subnav
       setActiveSection(id);
       const s = NAV_SECTIONS.find(n => n.id === id);
       setExpanded(s?.subnav?.length > 0);

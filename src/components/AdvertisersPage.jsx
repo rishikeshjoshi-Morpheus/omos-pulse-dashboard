@@ -702,7 +702,8 @@ export default function AdvertisersPage() {
               borderColor="border"
               overflow="hidden"
             >
-              <Table size="sm">
+              <Table.ScrollArea>
+              <Table size="sm" minW="900px">
                 <Table.Header>
                   <Table.Row bg="gray.50">
                     <Table.ColumnHeader w="40px" px="4">
@@ -712,14 +713,14 @@ export default function AdvertisersPage() {
                         aria-label="Select all advertisers"
                       />
                     </Table.ColumnHeader>
-                    <Table.ColumnHeader>Advertiser ID</Table.ColumnHeader>
-                    <Table.ColumnHeader>Store/Unit ID</Table.ColumnHeader>
-                    <Table.ColumnHeader>Advertiser Name</Table.ColumnHeader>
-                    <Table.ColumnHeader>Persona</Table.ColumnHeader>
-                    <Table.ColumnHeader textAlign="center">Product Spend for Year</Table.ColumnHeader>
-                    <Table.ColumnHeader textAlign="center">Product Spend for Role</Table.ColumnHeader>
-                    <Table.ColumnHeader textAlign="center">Catalog Rules</Table.ColumnHeader>
-                    <Table.ColumnHeader textAlign="right">Actions</Table.ColumnHeader>
+                    <Table.ColumnHeader minW="110px">Advertiser ID</Table.ColumnHeader>
+                    <Table.ColumnHeader minW="100px">Store/Unit ID</Table.ColumnHeader>
+                    <Table.ColumnHeader minW="160px">Advertiser Name</Table.ColumnHeader>
+                    <Table.ColumnHeader minW="90px">Persona</Table.ColumnHeader>
+                    <Table.ColumnHeader textAlign="center" minW="120px">Product Spend for Year</Table.ColumnHeader>
+                    <Table.ColumnHeader textAlign="center" minW="120px">Product Spend for Role</Table.ColumnHeader>
+                    <Table.ColumnHeader textAlign="center" minW="100px">Catalog Rules</Table.ColumnHeader>
+                    <Table.ColumnHeader textAlign="right" minW="120px">Actions</Table.ColumnHeader>
                   </Table.Row>
                 </Table.Header>
                 <Table.Body>
@@ -797,6 +798,7 @@ export default function AdvertisersPage() {
                   ))}
                 </Table.Body>
               </Table>
+              </Table.ScrollArea>
 
               {/* Table footer / pagination area */}
               <Flex
@@ -811,7 +813,7 @@ export default function AdvertisersPage() {
                   Showing {filtered.length} of {ADVERTISERS.length} advertisers
                 </Text>
                 <Text fontSize="xs" color="fg.muted">
-                  Last updated: {new Date().toLocaleDateString()}
+                  Last updated: {new Date().toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' })}
                 </Text>
               </Flex>
             </Box>
