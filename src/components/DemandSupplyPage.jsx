@@ -283,7 +283,10 @@ function DataTable({ columns, rows, totals }) {
                 fontWeight="600"
                 color="fg.muted"
                 textTransform="none"
+                px="4"
                 py="2.5"
+                _first={{ pl: '5' }}
+                _last={{ pr: '5' }}
               >
                 {c.label}
               </Table.ColumnHeader>
@@ -299,7 +302,10 @@ function DataTable({ columns, rows, totals }) {
                   textAlign={c.align === 'right' ? 'right' : 'left'}
                   fontSize="sm"
                   color="fg"
+                  px="4"
                   py="2.5"
+                  _first={{ pl: '5' }}
+                  _last={{ pr: '5' }}
                 >
                   {row[c.key]}
                 </Table.Cell>
@@ -315,7 +321,10 @@ function DataTable({ columns, rows, totals }) {
                   fontSize="sm"
                   color="fg"
                   fontWeight="700"
+                  px="4"
                   py="2.5"
+                  _first={{ pl: '5' }}
+                  _last={{ pr: '5' }}
                 >
                   {totals[c.key]}
                 </Table.Cell>

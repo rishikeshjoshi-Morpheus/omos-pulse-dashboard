@@ -117,7 +117,7 @@ function DataTable({ columns, rows, emptyRows = false }) {
         <Table.Header bg="#F8F9FB">
           <Table.Row>
             {columns.map((c) => (
-              <Table.ColumnHeader key={c.key} textAlign={c.align === 'right' ? 'right' : 'left'} fontSize="xs" fontWeight="600" color="fg.muted" textTransform="none" py="2.5">{c.label}</Table.ColumnHeader>
+              <Table.ColumnHeader key={c.key} textAlign={c.align === 'right' ? 'right' : 'left'} fontSize="xs" fontWeight="600" color="fg.muted" textTransform="none" px="4" py="2.5" _first={{ pl: '5' }} _last={{ pr: '5' }}>{c.label}</Table.ColumnHeader>
             ))}
           </Table.Row>
         </Table.Header>
@@ -125,7 +125,7 @@ function DataTable({ columns, rows, emptyRows = false }) {
           {rows.map((row, i) => (
             <Table.Row key={i} _hover={{ bg: '#FAFBFC' }}>
               {columns.map((c) => (
-                <Table.Cell key={c.key} textAlign={c.align === 'right' ? 'right' : 'left'} fontSize="sm" color={emptyRows && c.key !== columns[0].key ? 'fg.muted' : 'fg'} py="2.5">
+                <Table.Cell key={c.key} textAlign={c.align === 'right' ? 'right' : 'left'} fontSize="sm" color={emptyRows && c.key !== columns[0].key ? 'fg.muted' : 'fg'} px="4" py="2.5" _first={{ pl: '5' }} _last={{ pr: '5' }}>
                   {row[c.key] || (emptyRows && c.key !== columns[0].key ? '—' : '')}
                 </Table.Cell>
               ))}
