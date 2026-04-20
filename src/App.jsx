@@ -9,6 +9,8 @@ import ReferrerTable from './components/ReferrerTable';
 import GeoTable from './components/GeoTable';
 import HomePage from './components/HomePage';
 import AdvertisersPage from './components/AdvertisersPage';
+import LiveAnalyticsPage from './components/LiveAnalyticsPage';
+import DemandSupplyPage from './components/DemandSupplyPage';
 import AdvertiserInsightsPage from './components/AdvertiserInsightsPage';
 
 /* ── Analytics dashboard (the original page) ─────────────────── */
@@ -59,7 +61,16 @@ export default function App() {
           <div style={{ flex: 1, display: 'flex', flexDirection: 'column', minWidth: 0 }}>
             <TopBar section="Analytics" page="Live Insights" />
             <main style={{ flex: 1, overflowY: 'auto', background: '#EDF0F5' }}>
-              <AnalyticsDashboard bare />
+              <LiveAnalyticsPage />
+            </main>
+          </div>
+        );
+      case 'demand-supply':
+        return (
+          <div style={{ flex: 1, display: 'flex', flexDirection: 'column', minWidth: 0 }}>
+            <TopBar section="Analytics" page="Demand & Supply" />
+            <main style={{ flex: 1, overflowY: 'auto', background: '#EDF0F5' }}>
+              <DemandSupplyPage />
             </main>
           </div>
         );

@@ -21,10 +21,11 @@ const NAV_SECTIONS = [
       </>
     ),
     subnav: [
-      { id: 'live-insights',      label: 'Live Insights' },
+      { id: 'demand-supply',       label: 'Demand & Supply' },
+      { id: 'live-insights',       label: 'Live Insights' },
       { id: 'advertiser-insights', label: 'Advertiser Insights', active: true },
-      { id: 'scheduled-reports',  label: 'Scheduled Reports' },
-      { id: 'bu-analytics',       label: 'BU Analytics' },
+      { id: 'scheduled-reports',   label: 'Scheduled Reports' },
+      { id: 'bu-analytics',        label: 'BU Analytics' },
     ],
   },
   {

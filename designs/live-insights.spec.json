@@ -1,0 +1,166 @@
+{
+  "screenType": "dashboard",
+  "screenName": "live-insights",
+  "title": "Live Insights",
+  "description": "Real-time analytics page showing KPI filter chips, a today-performance trend line chart, and two performance tables.",
+  "layout": {
+    "containerBg": "#EDF0F5",
+    "contentPadding": 16,
+    "panelGap": 12,
+    "panelStyle": {
+      "bg": "#FFFFFF",
+      "borderRadius": 8,
+      "border": "1px solid #E4E7EC",
+      "shadow": "0 1px 2px rgba(0,0,0,0.04)",
+      "padding": 16
+    }
+  },
+  "zones": {
+    "toolbar": {
+      "type": "Toolbar",
+      "left": [
+        { "type": "PageTitle", "text": "Live Insights", "icon": "bolt" }
+      ],
+      "right": [
+        { "type": "IconButton", "icon": "search" },
+        { "type": "IconButton", "icon": "filter" },
+        { "type": "IconButton", "icon": "columns" },
+        { "type": "Select", "purpose": "page-scope", "placeholder": "All Pages" }
+      ]
+    },
+    "filterChips": {
+      "type": "KpiChipRow",
+      "chips": [
+        { "label": "Global ratio", "value": "70%", "tone": "neutral" },
+        { "label": "Product Ad Revenue", "value": "70%", "tone": "positive" },
+        { "label": "Display Ad Revenue", "value": "70%", "tone": "positive" },
+        { "label": "Display Ad CPM",     "value": "70%", "tone": "positive" },
+        { "label": "Product Ad CPM",     "value": "70%", "tone": "positive" }
+      ]
+    },
+    "panels": [
+      {
+        "id": "today-performance-trend",
+        "title": "Today Performance Trend",
+        "toolbar": {
+          "left": [],
+          "right": [
+            { "type": "Select", "size": "sm", "value": "Current Epoch" },
+            { "type": "IconButton", "icon": "download" }
+          ]
+        },
+        "body": {
+          "type": "LineChart",
+          "library": "recharts",
+          "series": [
+            { "key": "yesterday", "label": "Yesterday", "color": "#F5B90B" },
+            { "key": "tomorrow", "label": "Tomorrow", "color": "#1BA87A" },
+            { "key": "lastWeek", "label": "Same day (last week)", "color": "#6366F1" }
+          ],
+          "xAxis": { "key": "time", "labelHint": "HH:00, 00:00..23:00" },
+          "yAxis": { "domain": [0, 1.0], "tickFormat": "%" },
+          "data": [
+            { "time": "00:00", "yesterday": 0.28, "tomorrow": 0.32, "lastWeek": 0.30 },
+            { "time": "02:00", "yesterday": 0.35, "tomorrow": 0.41, "lastWeek": 0.38 },
+            { "time": "04:00", "yesterday": 0.42, "tomorrow": 0.52, "lastWeek": 0.47 },
+            { "time": "06:00", "yesterday": 0.48, "tomorrow": 0.60, "lastWeek": 0.55 },
+            { "time": "08:00", "yesterday": 0.55, "tomorrow": 0.68, "lastWeek": 0.62 },
+            { "time": "10:00", "yesterday": 0.60, "tomorrow": 0.66, "lastWeek": 0.64 },
+            { "time": "12:00", "yesterday": 0.62, "tomorrow": 0.64, "lastWeek": 0.63 },
+            { "time": "14:00", "yesterday": 0.58, "tomorrow": 0.70, "lastWeek": 0.65 },
+            { "time": "16:00", "yesterday": 0.68, "tomorrow": 0.78, "lastWeek": 0.72 },
+            { "time": "18:00", "yesterday": 0.74, "tomorrow": 0.80, "lastWeek": 0.76 },
+            { "time": "20:00", "yesterday": 0.66, "tomorrow": 0.70, "lastWeek": 0.68 },
+            { "time": "22:00", "yesterday": 0.52, "tomorrow": 0.58, "lastWeek": 0.55 },
+            { "time": "23:00", "yesterday": 0.48, "tomorrow": 0.52, "lastWeek": 0.50 }
+          ],
+          "highlight": { "time": "12:00", "values": { "yesterday": "61.2 K", "tomorrow": "61.2 K", "lastWeek": "61.2 K" } }
+        }
+      },
+      {
+        "id": "advertiser-performance",
+        "title": "Advertiser Performance Report",
+        "toolbar": {
+          "left": [],
+          "right": [
+            { "type": "Select", "size": "sm", "placeholder": "Search advertiser" },
+            { "type": "IconButton", "icon": "download" }
+          ]
+        },
+        "body": {
+          "type": "Table",
+          "columns": [
+            { "key": "advertiserName", "label": "Advertiser Name", "sticky": "left" },
+            { "key": "adRevenue", "label": "Ad Revenue", "align": "right" },
+            { "key": "if", "label": "IF", "align": "right" },
+            { "key": "adImpressions", "label": "Ad Impressions", "align": "right" },
+            { "key": "adClicks", "label": "Ad Clicks", "align": "right" },
+            { "key": "cpc", "label": "CPC", "align": "right" },
+            { "key": "cpm", "label": "CPM", "align": "right" },
+            { "key": "ctr", "label": "CTR", "align": "right" }
+          ],
+          "rows": [
+            { "advertiserName": "Advertiser 1", "adRevenue": "", "if": "", "adImpressions": "", "adClicks": "", "cpc": "", "cpm": "", "ctr": "" },
+            { "advertiserName": "Advertiser 2", "adRevenue": "", "if": "", "adImpressions": "", "adClicks": "", "cpc": "", "cpm": "", "ctr": "" },
+            { "advertiserName": "Advertiser 3", "adRevenue": "", "if": "", "adImpressions": "", "adClicks": "", "cpc": "", "cpm": "", "ctr": "" },
+            { "advertiserName": "Advertiser 4", "adRevenue": "", "if": "", "adImpressions": "", "adClicks": "", "cpc": "", "cpm": "", "ctr": "" },
+            { "advertiserName": "Advertiser 5", "adRevenue": "", "if": "", "adImpressions": "", "adClicks": "", "cpc": "", "cpm": "", "ctr": "" },
+            { "advertiserName": "Advertiser 6", "adRevenue": "", "if": "", "adImpressions": "", "adClicks": "", "cpc": "", "cpm": "", "ctr": "" },
+            { "advertiserName": "Advertiser 7", "adRevenue": "", "if": "", "adImpressions": "", "adClicks": "", "cpc": "", "cpm": "", "ctr": "" }
+          ]
+        }
+      },
+      {
+        "id": "product-ads-campaign-performance",
+        "title": "Product Ads - Campaign Performance Report",
+        "toolbar": {
+          "left": [],
+          "right": [
+            { "type": "Select", "size": "sm", "placeholder": "Search campaign" },
+            { "type": "IconButton", "icon": "download" }
+          ]
+        },
+        "body": {
+          "type": "Table",
+          "columns": [
+            { "key": "campaignName", "label": "Campaign Name", "sticky": "left" },
+            { "key": "campaignId", "label": "Campaign ID", "align": "right" },
+            { "key": "if", "label": "IF", "align": "right" },
+            { "key": "dailyBudget", "label": "Daily Budget", "align": "right" },
+            { "key": "adRevenue", "label": "Ad Revenue", "align": "right" },
+            { "key": "adClicks", "label": "Ad Clicks", "align": "right" },
+            { "key": "cpc", "label": "CPC", "align": "right" },
+            { "key": "cpm", "label": "CPM", "align": "right" },
+            { "key": "ctr", "label": "CTR", "align": "right" },
+            { "key": "budgetUtilization", "label": "Budget Utilization", "align": "right" }
+          ],
+          "rows": [
+            { "campaignName": "African Holidays and destinations", "campaignId": "410037", "if": "$612", "dailyBudget": "$1.35", "adRevenue": "$1.4",  "adClicks": "7.6 B",  "cpc": "15.8 M", "cpm": "0.75", "ctr": "0.43", "budgetUtilization": "57%" },
+            { "campaignName": "South American Escapes",             "campaignId": "410037", "if": "$562", "dailyBudget": "$18.7 M", "adRevenue": "$1.6", "adClicks": "15.8 B", "cpc": "18.7 M", "cpm": "0.82", "ctr": "0.46", "budgetUtilization": "62%" },
+            { "campaignName": "Asian Getaways and suppliers",       "campaignId": "410037", "if": "$641", "dailyBudget": "$2.1",    "adRevenue": "$1.8", "adClicks": "21.1 B", "cpc": "18.7 M", "cpm": "0.89", "ctr": "0.51", "budgetUtilization": "68%" },
+            { "campaignName": "North American Travel",              "campaignId": "410037", "if": "$662", "dailyBudget": "$1.2",    "adRevenue": "$1.5", "adClicks": "19.5 B", "cpc": "21.1 M", "cpm": "0.78", "ctr": "0.48", "budgetUtilization": "65%" },
+            { "campaignName": "Australian Journey",                 "campaignId": "410037", "if": "$643", "dailyBudget": "$82.5",   "adRevenue": "$2.7", "adClicks": "24.2 B", "cpc": "19.5 M", "cpm": "0.95", "ctr": "0.55", "budgetUtilization": "71%" },
+            { "campaignName": "European Adventures and vendors",    "campaignId": "410037", "if": "$625", "dailyBudget": "$5.8.1",  "adRevenue": "$2.7", "adClicks": "31.5 B", "cpc": "24.2 M", "cpm": "0.98", "ctr": "0.58", "budgetUtilization": "74%" },
+            { "campaignName": "Antarctic Expeditions and vendors",  "campaignId": "410037", "if": "$571", "dailyBudget": "$31.5",   "adRevenue": "$3.1", "adClicks": "38.1 B", "cpc": "31.5 M", "cpm": "1.02", "ctr": "0.62", "budgetUtilization": "78%" },
+            { "campaignName": "African Holidays and destinations",  "campaignId": "410037", "if": "$607", "dailyBudget": "$31.5",   "adRevenue": "$3.3", "adClicks": "38.1 B", "cpc": "31.5 M", "cpm": "1.05", "ctr": "0.65", "budgetUtilization": "82%" }
+          ],
+          "footerNote": "Ans.Tax Applicable Data"
+        }
+      }
+    ]
+  },
+  "componentMap": {
+    "Tabs": "@rishikeshjoshi-morpheus/ui Tabs.Root",
+    "Table": "@rishikeshjoshi-morpheus/ui Table.Root",
+    "Button": "@rishikeshjoshi-morpheus/ui Button",
+    "IconButton": "@rishikeshjoshi-morpheus/ui IconButton",
+    "Select": "@rishikeshjoshi-morpheus/ui Select",
+    "Badge": "@rishikeshjoshi-morpheus/ui Badge",
+    "Card": "@rishikeshjoshi-morpheus/ui Card.Root",
+    "LineChart": "recharts LineChart",
+    "KpiChipRow": "custom composition (flex row of Card+Badge)"
+  },
+  "dataRequirements": {
+    "entities": ["KpiChip", "TrendPoint", "AdvertiserPerfRow", "CampaignPerfRow"]
+  }
+}

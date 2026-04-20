@@ -1,0 +1,230 @@
+{
+  "screenType": "report",
+  "screenName": "demand-supply",
+  "title": "Demand & Supply",
+  "description": "Analytics report page showing demand-supply gap analysis, seasonality heatmaps, GMV distribution, search demand, and category performance.",
+  "layout": {
+    "containerBg": "#EDF0F5",
+    "contentPadding": 16,
+    "panelGap": 12,
+    "panelStyle": {
+      "bg": "#FFFFFF",
+      "borderRadius": 8,
+      "border": "1px solid #E4E7EC",
+      "shadow": "0 1px 2px rgba(0,0,0,0.04)",
+      "padding": 16
+    }
+  },
+  "zones": {
+    "toolbar": {
+      "type": "Toolbar",
+      "left": [
+        {
+          "type": "PageTitle",
+          "text": "Demand & Supply",
+          "icon": "chart-gap"
+        }
+      ],
+      "right": [
+        { "type": "IconButton", "icon": "search", "label": "Search" },
+        { "type": "IconButton", "icon": "filter", "label": "Filter" },
+        { "type": "IconButton", "icon": "columns", "label": "Column settings" },
+        { "type": "Select", "purpose": "page-scope", "placeholder": "All Pages" },
+        { "type": "DateRangePicker", "value": "08 May 26 - 14 May 26" }
+      ]
+    },
+    "panels": [
+      {
+        "id": "gap-analytics",
+        "title": "Demand & Supply Gap Analytics",
+        "toolbar": {
+          "left": [
+            { "type": "Button", "variant": "ghost", "size": "sm", "label": "+ Add a Filter" }
+          ],
+          "right": [
+            { "type": "Select", "size": "sm", "placeholder": "Search category L1" },
+            { "type": "IconButton", "icon": "download" },
+            { "type": "IconButton", "icon": "menu" }
+          ]
+        },
+        "body": {
+          "type": "Table",
+          "columns": [
+            { "key": "categoryL1", "label": "Category L1", "sortable": true, "sticky": "left" },
+            { "key": "requests", "label": "Requests", "align": "right" },
+            { "key": "if", "label": "IF", "align": "right" },
+            { "key": "responseRate", "label": "Response Rate (%)", "align": "right" },
+            { "key": "adRevenue", "label": "Ad Revenue", "align": "right" },
+            { "key": "computedDailyBudget", "label": "Computed Daily Budget", "align": "right" },
+            { "key": "budgetUtilization", "label": "Budget Utilization (%)", "align": "right" },
+            { "key": "campaignCount", "label": "Campaign Count", "align": "right" }
+          ],
+          "rows": [
+            { "categoryL1": "Body Care",   "requests": "257 M", "if": "30%", "responseRate": "—", "adRevenue": "$150 K", "computedDailyBudget": "$120 K", "budgetUtilization": "—", "campaignCount": "7 K" },
+            { "categoryL1": "Skin Care",   "requests": "200 M", "if": "50%", "responseRate": "—", "adRevenue": "$175 K", "computedDailyBudget": "$150 K", "budgetUtilization": "—", "campaignCount": "12 K" },
+            { "categoryL1": "Makeup",      "requests": "400 M", "if": "45%", "responseRate": "—", "adRevenue": "$210 K", "computedDailyBudget": "$200 K", "budgetUtilization": "—", "campaignCount": "14 K" },
+            { "categoryL1": "Body Care",   "requests": "650 M", "if": "50%", "responseRate": "—", "adRevenue": "$350 K", "computedDailyBudget": "$320 K", "budgetUtilization": "—", "campaignCount": "9 K" },
+            { "categoryL1": "Oral Care",   "requests": "600 M", "if": "52%", "responseRate": "—", "adRevenue": "$330 K", "computedDailyBudget": "$300 K", "budgetUtilization": "—", "campaignCount": "6 K" },
+            { "categoryL1": "Fragrance",   "requests": "750 M", "if": "75%", "responseRate": "—", "adRevenue": "$520 K", "computedDailyBudget": "$480 K", "budgetUtilization": "—", "campaignCount": "11 K" },
+            { "categoryL1": "Sun Care",    "requests": "900 M", "if": "60%", "responseRate": "—", "adRevenue": "$420 K", "computedDailyBudget": "$400 K", "budgetUtilization": "—", "campaignCount": "7 K" },
+            { "categoryL1": "Hair Care",   "requests": "1 B",   "if": "80%", "responseRate": "—", "adRevenue": "$680 K", "computedDailyBudget": "$640 K", "budgetUtilization": "—", "campaignCount": "18 K" },
+            { "categoryL1": "Hair Care",   "requests": "1.2 B", "if": "90%", "responseRate": "—", "adRevenue": "$850 K", "computedDailyBudget": "$820 K", "budgetUtilization": "—", "campaignCount": "22 K" },
+            { "categoryL1": "Hair Styling Products", "requests": "1 M", "if": "30%", "responseRate": "—", "adRevenue": "$50 K", "computedDailyBudget": "$40 K", "budgetUtilization": "—", "campaignCount": "10%" }
+          ],
+          "footerNote": "Ans.Tax Applicable Data"
+        }
+      },
+      {
+        "id": "seasonality-pair",
+        "layout": "two-column",
+        "columns": [
+          {
+            "id": "seasonality-a",
+            "title": "Seasonality",
+            "toolbar": {
+              "left": [
+                {
+                  "type": "Tabs",
+                  "value": "days-hours",
+                  "items": [
+                    { "id": "days-hours", "label": "Days & Hours" },
+                    { "id": "days", "label": "Days" },
+                    { "id": "hours", "label": "Hours" }
+                  ]
+                },
+                { "type": "Select", "size": "sm", "value": "All Impressions" }
+              ],
+              "right": [{ "type": "IconButton", "icon": "download" }]
+            },
+            "body": { "type": "Heatmap", "rows": 7, "cols": 24, "rowLabels": ["Mon","Tue","Wed","Thu","Fri","Sat","Sun"], "colLabels": "0..23", "valueLabel": "IF" }
+          },
+          {
+            "id": "seasonality-b",
+            "title": "Seasonality",
+            "toolbar": {
+              "left": [
+                {
+                  "type": "Tabs",
+                  "value": "days-hours",
+                  "items": [
+                    { "id": "days-hours", "label": "Days & Hours" },
+                    { "id": "days", "label": "Days" },
+                    { "id": "hours", "label": "Hours" }
+                  ]
+                },
+                { "type": "Select", "size": "sm", "value": "All Impressions" }
+              ],
+              "right": [{ "type": "IconButton", "icon": "download" }]
+            },
+            "body": { "type": "Heatmap", "rows": 7, "cols": 24, "rowLabels": ["Mon","Tue","Wed","Thu","Fri","Sat","Sun"], "colLabels": "0..23", "valueLabel": "Ad Revenue" }
+          }
+        ]
+      },
+      {
+        "id": "advertiser-overall-gmv",
+        "title": "Advertiser Overall GMV",
+        "toolbar": {
+          "left": [],
+          "right": [
+            { "type": "Select", "size": "sm", "value": "All Impressions" },
+            { "type": "IconButton", "icon": "download" }
+          ]
+        },
+        "body": {
+          "type": "BarChart",
+          "library": "recharts",
+          "series": [
+            { "key": "adv", "label": "Non-Advertiser Members", "color": "#F5B90B" },
+            { "key": "nonAdv", "label": "Advertiser Members", "color": "#1BA87A" }
+          ],
+          "data": [
+            { "name": "Skin Care",     "adv": 22,  "nonAdv": 0 },
+            { "name": "Body Care",     "adv": 78,  "nonAdv": 10 },
+            { "name": "Hair Care",     "adv": 38,  "nonAdv": 0 },
+            { "name": "Makeup",        "adv": 12,  "nonAdv": 0 },
+            { "name": "Fragrance",     "adv": 96,  "nonAdv": 0 },
+            { "name": "Oral Care",     "adv": 28,  "nonAdv": 0 },
+            { "name": "Sun Care",      "adv": 62,  "nonAdv": 0 },
+            { "name": "Body Care 2",   "adv": 26,  "nonAdv": 0 },
+            { "name": "Fragrance 2",   "adv": 50,  "nonAdv": 0 }
+          ]
+        }
+      },
+      {
+        "id": "search-demand-planner",
+        "title": "Search Demand Planner",
+        "toolbar": {
+          "left": [],
+          "right": [
+            { "type": "Select", "size": "sm", "placeholder": "Search category L1" },
+            { "type": "IconButton", "icon": "download" }
+          ]
+        },
+        "body": {
+          "type": "EmptyState",
+          "columns": ["Category L1", "Total Search Volume", "High Demand Search Queries", "Response Rate of High Demand Search Queries"],
+          "title": "No Data Available",
+          "message": ""
+        }
+      },
+      {
+        "id": "category-performance",
+        "title": "Category Performance Report",
+        "toolbar": {
+          "left": [],
+          "right": [
+            { "type": "Select", "size": "sm", "placeholder": "Search category L1" },
+            { "type": "IconButton", "icon": "download" }
+          ]
+        },
+        "body": {
+          "type": "Table",
+          "columns": [
+            { "key": "categoryL1", "label": "category L1", "sortable": true, "sticky": "left" },
+            { "key": "adRevenue", "label": "Ad Revenue", "align": "right" },
+            { "key": "programCpc", "label": "Program CPC", "align": "right" },
+            { "key": "programCpm", "label": "Program CPM", "align": "right" },
+            { "key": "adImpressions", "label": "Ad Impressions", "align": "right" },
+            { "key": "adClicks", "label": "Ad Clicks", "align": "right" },
+            { "key": "attributedAtc", "label": "Attributed Add to cart", "align": "right" },
+            { "key": "attributedOrders", "label": "Attributed Orders", "align": "right" }
+          ],
+          "rows": [
+            { "categoryL1": "Body Care",  "adRevenue": "$150 K",  "programCpc": "$1.05", "programCpm": "$1.4", "adImpressions": "1.4 B",  "adClicks": "13.6 M", "attributedAtc": "175 K", "attributedOrders": "12 K" },
+            { "categoryL1": "Foot Care",  "adRevenue": "$175 K",  "programCpc": "$0.82", "programCpm": "$1.6", "adImpressions": "1.8 B",  "adClicks": "18.7 M", "attributedAtc": "192 K", "attributedOrders": "16 K" },
+            { "categoryL1": "Makeup",     "adRevenue": "$200 K",  "programCpc": "$1.52", "programCpm": "$2.1", "adImpressions": "2.2 B",  "adClicks": "21.1 M", "attributedAtc": "201 K", "attributedOrders": "17 K" },
+            { "categoryL1": "Oral Care",  "adRevenue": "$225 K",  "programCpc": "$0.94", "programCpm": "$2.2", "adImpressions": "2.6 B",  "adClicks": "24.2 M", "attributedAtc": "229 K", "attributedOrders": "19 K" },
+            { "categoryL1": "Hair Care",  "adRevenue": "$280 K",  "programCpc": "$0.45", "programCpm": "$1.8", "adImpressions": "3.3 B",  "adClicks": "18.1 M", "attributedAtc": "251 K", "attributedOrders": "21 K" },
+            { "categoryL1": "Body Care",  "adRevenue": "$400 K",  "programCpc": "$1.35", "programCpm": "$2.7", "adImpressions": "5.1 B",  "adClicks": "31.5 M", "attributedAtc": "312 K", "attributedOrders": "28 K" }
+          ],
+          "totals": {
+            "categoryL1": "Total",
+            "adRevenue": "$27 M",
+            "programCpc": "$27",
+            "programCpm": "$2.1",
+            "adImpressions": "19 B",
+            "adClicks": "108 M",
+            "attributedAtc": "7 M",
+            "attributedOrders": ""
+          },
+          "footerNote": "Ans.Tax Applicable Data"
+        }
+      }
+    ]
+  },
+  "componentMap": {
+    "Tabs": "@rishikeshjoshi-morpheus/ui Tabs.Root",
+    "Table": "@rishikeshjoshi-morpheus/ui Table.Root",
+    "Button": "@rishikeshjoshi-morpheus/ui Button",
+    "IconButton": "@rishikeshjoshi-morpheus/ui IconButton",
+    "Select": "@rishikeshjoshi-morpheus/ui Select",
+    "Badge": "@rishikeshjoshi-morpheus/ui Badge",
+    "Card": "@rishikeshjoshi-morpheus/ui Card.Root",
+    "EmptyState": "@rishikeshjoshi-morpheus/ui EmptyState.Root",
+    "BarChart": "recharts BarChart",
+    "Heatmap": "custom composition (CSS grid of colored <div>)"
+  },
+  "dataRequirements": {
+    "entities": ["CategoryGapRow", "HeatmapCell", "GmvBucket", "CategoryPerfRow"]
+  }
+}
