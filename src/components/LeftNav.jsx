@@ -131,7 +131,7 @@ function IconRail({ activeSection, onSelect, expanded }) {
     <div style={{
       width: 68,
       minHeight: '100vh',
-      background: '#1e2266',
+      background: 'var(--osmos-nav-bg)',
       display: 'flex',
       flexDirection: 'column',
       alignItems: 'center',
@@ -142,7 +142,7 @@ function IconRail({ activeSection, onSelect, expanded }) {
         width: '100%', height: 80,
         display: 'flex', flexDirection: 'column',
         alignItems: 'center', justifyContent: 'center', gap: 3,
-        borderBottom: '1px solid rgba(123,130,248,0.25)',
+        borderBottom: '1px solid var(--osmos-nav-border)',
         marginBottom: 8,
       }}>
         <div style={{
@@ -150,13 +150,13 @@ function IconRail({ activeSection, onSelect, expanded }) {
           background: 'rgba(255,255,255,0.12)',
           display: 'flex', alignItems: 'center', justifyContent: 'center',
         }}>
-          <Icon size={18} color="#7B82F8">
+          <Icon size={18} color="var(--osmos-nav-accent)">
             <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/>
           </Icon>
         </div>
         <span style={{
           fontSize: 8, fontWeight: 700, color: '#fff',
-          background: '#F5A623', borderRadius: 3,
+          background: 'var(--osmos-brand-amber)', borderRadius: 3,
           padding: '1px 4px', letterSpacing: 0.3,
         }}>PRO</span>
       </div>
@@ -171,9 +171,9 @@ function IconRail({ activeSection, onSelect, expanded }) {
               style={{
                 width: '100%', height: 44,
                 display: 'flex', alignItems: 'center', justifyContent: 'center',
-                background: isActive ? 'rgba(123,130,248,0.25)' : 'transparent',
+                background: isActive ? 'var(--osmos-nav-border)' : 'transparent',
                 border: 'none', borderRadius: 8, cursor: 'pointer',
-                color: isActive ? '#7B82F8' : 'rgba(255,255,255,0.5)',
+                color: isActive ? 'var(--osmos-nav-accent)' : 'rgba(255,255,255,0.5)',
                 transition: 'all 0.15s',
               }}
               onMouseEnter={e => { if (!isActive) e.currentTarget.style.background = 'rgba(255,255,255,0.08)'; }}
@@ -188,7 +188,7 @@ function IconRail({ activeSection, onSelect, expanded }) {
       {/* Bottom icons */}
       <div style={{
         width: '100%', padding: '8px 6px 16px',
-        borderTop: '1px solid rgba(123,130,248,0.25)',
+        borderTop: '1px solid var(--osmos-nav-border)',
         display: 'flex', flexDirection: 'column', gap: 2,
       }}>
         {BOTTOM_NAV.map(item => (
@@ -208,7 +208,7 @@ function IconRail({ activeSection, onSelect, expanded }) {
         {/* User avatar */}
         <div style={{
           width: 34, height: 34, borderRadius: '50%',
-          background: '#7B82F8', margin: '4px auto 0',
+          background: 'var(--osmos-nav-accent)', margin: '4px auto 0',
           display: 'flex', alignItems: 'center', justifyContent: 'center',
           fontSize: 12, fontWeight: 700, color: '#fff',
         }}>R</div>
@@ -241,16 +241,16 @@ function SubNavPanel({ section, onClose, onPageChange }) {
   return (
     <div style={{
       width: 220,
-      background: '#212563',
+      background: 'var(--osmos-nav-panel-bg)',
       display: 'flex',
       flexDirection: 'column',
-      borderLeft: '1px solid rgba(123,130,248,0.2)',
+      borderLeft: '1px solid var(--osmos-nav-active-bg)',
       overflow: 'hidden',
     }}>
       {/* Panel header */}
       <div style={{
         padding: '20px 16px 12px',
-        borderBottom: '1px solid rgba(123,130,248,0.2)',
+        borderBottom: '1px solid var(--osmos-nav-active-bg)',
       }}>
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
           <span style={{ fontSize: 15, fontWeight: 700, color: '#fff', letterSpacing: 0.1 }}>
@@ -310,10 +310,10 @@ function SubNavItem({ item, active, onClick }) {
         width: '100%', textAlign: 'left',
         padding: '8px 16px',
         background: active
-          ? 'rgba(123,130,248,0.2)'
+          ? 'var(--osmos-nav-active-bg)'
           : hovered ? 'rgba(255,255,255,0.06)' : 'transparent',
         border: 'none',
-        borderLeft: active ? '3px solid #7B82F8' : '3px solid transparent',
+        borderLeft: active ? '3px solid var(--osmos-nav-accent)' : '3px solid transparent',
         cursor: 'pointer',
         fontFamily: "'Open Sans', sans-serif",
         fontSize: 13, fontWeight: active ? 600 : 400,

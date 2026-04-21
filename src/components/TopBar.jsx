@@ -9,18 +9,18 @@ function IconBtn({ children, title }) {
         width: 44, height: 44,
         display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center',
         gap: 2,
-        background: '#fff', border: '1px solid #DEDEDE',
-        borderRadius: 8, cursor: 'pointer', color: '#555', flexShrink: 0,
+        background: 'var(--osmos-bg)', border: '1px solid var(--osmos-border)',
+        borderRadius: 8, cursor: 'pointer', color: 'var(--osmos-fg-muted)', flexShrink: 0,
         transition: 'background 0.12s',
       }}
       onMouseEnter={e => e.currentTarget.style.background = '#F5F5F8'}
-      onMouseLeave={e => e.currentTarget.style.background = '#fff'}
+      onMouseLeave={e => e.currentTarget.style.background = 'var(--osmos-bg)'}
     >
       <svg width="15" height="15" viewBox="0 0 24 24" fill="none"
         stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
         {children}
       </svg>
-      <span style={{ fontSize: 8, color: '#999', fontWeight: 500, lineHeight: 1, letterSpacing: 0.2 }}>
+      <span style={{ fontSize: 8, color: 'var(--osmos-fg-subtle)', fontWeight: 500, lineHeight: 1, letterSpacing: 0.2 }}>
         {title}
       </span>
     </button>
@@ -31,8 +31,8 @@ export default function TopBar({ section = 'Analytics', page = 'Dashboard' }) {
   return (
     <header style={{
       height: 72,
-      background: '#fff',
-      borderBottom: '1px solid #EBEBEB',
+      background: 'var(--osmos-bg)',
+      borderBottom: '1px solid var(--osmos-border)',
       display: 'flex',
       alignItems: 'center',
       justifyContent: 'space-between',
@@ -43,19 +43,19 @@ export default function TopBar({ section = 'Analytics', page = 'Dashboard' }) {
       {/* Left: back + breadcrumb + title */}
       <div style={{ display: 'flex', alignItems: 'center', gap: 12, minWidth: 0 }}>
         <div style={{
-          width: 36, height: 36, background: '#EFEFEF', borderRadius: 8,
+          width: 36, height: 36, background: 'var(--osmos-bg-muted)', borderRadius: 8,
           display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0,
         }}>
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none"
-            stroke="#555" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+            stroke="var(--osmos-fg-muted)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
             <polyline points="15 18 9 12 15 6"/>
           </svg>
         </div>
         <div>
-          <div style={{ fontSize: 11, color: '#888', marginBottom: 2 }}>
+          <div style={{ fontSize: 11, color: 'var(--osmos-fg-muted)', marginBottom: 2 }}>
             {section} &gt; {page}
           </div>
-          <div style={{ fontSize: 16, fontWeight: 600, color: '#1A1A2E', lineHeight: 1 }}>
+          <div style={{ fontSize: 16, fontWeight: 600, color: 'var(--osmos-fg)', lineHeight: 1 }}>
             {page}
           </div>
         </div>
@@ -93,18 +93,18 @@ export default function TopBar({ section = 'Analytics', page = 'Dashboard' }) {
         <button style={{
           height: 36, padding: '0 12px',
           display: 'flex', alignItems: 'center', gap: 6,
-          background: '#fff', border: '1px solid #DEDEDE',
-          borderRadius: 8, cursor: 'pointer', fontSize: 12, color: '#333',
+          background: 'var(--osmos-bg)', border: '1px solid var(--osmos-border)',
+          borderRadius: 8, cursor: 'pointer', fontSize: 12, color: 'var(--osmos-fg)',
           fontFamily: "'Open Sans', sans-serif", flexShrink: 0,
         }}>
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none"
-            stroke="#555" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+            stroke="var(--osmos-fg-muted)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
             <rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/>
             <rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/>
           </svg>
           All Pages
           <svg width="12" height="12" viewBox="0 0 24 24" fill="none"
-            stroke="#888" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+            stroke="var(--osmos-fg-muted)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
             <polyline points="6 9 12 15 18 9"/>
           </svg>
         </button>
@@ -113,8 +113,8 @@ export default function TopBar({ section = 'Analytics', page = 'Dashboard' }) {
         <button style={{
           height: 36, padding: '0 12px',
           display: 'flex', alignItems: 'center', gap: 6,
-          background: '#fff', border: '1px solid #DEDEDE',
-          borderRadius: 8, cursor: 'pointer', fontSize: 12, color: '#333',
+          background: 'var(--osmos-bg)', border: '1px solid var(--osmos-border)',
+          borderRadius: 8, cursor: 'pointer', fontSize: 12, color: 'var(--osmos-fg)',
           fontFamily: "'Open Sans', sans-serif", flexShrink: 0,
         }}>
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none"
@@ -129,10 +129,10 @@ export default function TopBar({ section = 'Analytics', page = 'Dashboard' }) {
 
         {/* Team avatars */}
         <div style={{ display: 'flex', alignItems: 'center', gap: -4 }}>
-          {['#7B82F8','#48BB78','#ED8936'].map((color, i) => (
+          {['var(--osmos-nav-accent)','#48BB78','#ED8936'].map((color, i) => (
             <div key={i} style={{
               width: 28, height: 28, borderRadius: '50%',
-              background: color, border: '2px solid #fff',
+              background: color, border: '2px solid var(--osmos-bg)',
               marginLeft: i > 0 ? -8 : 0, fontSize: 10, fontWeight: 600,
               color: '#fff', display: 'flex', alignItems: 'center', justifyContent: 'center',
               zIndex: 3 - i,

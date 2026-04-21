@@ -613,7 +613,7 @@ export default function AdvertisersPage() {
   );
 
   return (
-    <Box display="flex" flexDirection="column" flex="1" minW="0" bg="#EDF0F5">
+    <Box display="flex" flexDirection="column" flex="1" minW="0" bg="bg.subtle">
       {/* Top Bar */}
       <AdvertiserTopBar />
 

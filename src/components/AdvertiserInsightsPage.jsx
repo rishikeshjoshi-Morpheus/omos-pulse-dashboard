@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import {
   LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip,
   ResponsiveContainer, ComposedChart, Bar, Area,
@@ -6,16 +6,16 @@ import {
 } from 'recharts';
 
 /* ── tokens ───────────────────────────────────────────────────── */
-const WHITE  = '#fff';
-const BORDER = '#E8E8E8';
-const ACCENT = '#5B6EF5';
-const TEXT_HI  = '#404040';
-const TEXT_MID = '#7B7B7B';
-const TEXT_LO  = '#AAAAAA';
-const GREEN  = '#22C55E';
-const RED    = '#EF4444';
-const ORANGE = '#F5A623';
-const COLORS = ['#5B6EF5','#8B5CF6','#10B981','#F59E0B','#EC4899'];
+const WHITE  = 'var(--osmos-bg)';
+const BORDER = 'var(--osmos-border)';
+const ACCENT = 'var(--osmos-brand-primary)';
+const TEXT_HI  = 'var(--osmos-fg)';
+const TEXT_MID = 'var(--osmos-fg-muted)';
+const TEXT_LO  = 'var(--osmos-fg-subtle)';
+const GREEN  = '#22C55E';          // semantic positive — keep
+const RED    = '#EF4444';          // semantic negative — keep
+const ORANGE = 'var(--osmos-brand-amber)';
+const COLORS = ['var(--osmos-brand-primary)','#8B5CF6','#10B981','#F59E0B','#EC4899']; // chart palette
 
 /* ── Icon ─────────────────────────────────────────────────────── */
 function Icon({ children, size = 16, color = 'currentColor', sw = 1.8 }) {
@@ -117,9 +117,9 @@ const clicksCpcData = DATES.map((d,i) => ({
 }));
 
 /* ── Toolbar ──────────────────────────────────────────────────── */
-function Toolbar({ title, icon, count, countLabel, children }) {
+function Toolbar({ title, icon, count, countLabel }) {
   return (
-    <div style={{ padding:'14px 20px', borderBottom:`1px solid #F5F5F5` }}>
+    <div style={{ padding:'14px 20px', borderBottom:`1px solid var(--osmos-border)` }}>
       <div style={{ display:'flex', alignItems:'center', justifyContent:'space-between' }}>
         <div style={{ display:'flex', alignItems:'center', gap:8 }}>
           <div style={{ width:28, height:28, background:'#F0F4FF', borderRadius:6,
@@ -128,6 +128,7 @@ function Toolbar({ title, icon, count, countLabel, children }) {
           </div>
           <span style={{ fontSize:14, fontWeight:600, color:TEXT_HI }}>{title}</span>
           {count != null && <span style={{ fontSize:11, color:TEXT_LO }}>({count} {countLabel})</span>}
+          <InfoIcon />
         </div>
         <div style={{ display:'flex', alignItems:'center', gap:7 }}>
           <div style={{ height:30, padding:'0 10px', display:'flex', alignItems:'center', gap:6,
@@ -137,9 +138,15 @@ function Toolbar({ title, icon, count, countLabel, children }) {
               fontFamily:"'Open Sans',sans-serif", width:120, background:'transparent', color:'#333' }} />
           </div>
           <Btn icon={<FilterIcon />} label="Filter" />
-          <Btn icon={<ColIcon />} label="Columns" />
           <Btn icon={<DlIcon />} label="Export" />
-          {children}
+          {/* D / W toggle */}
+          <div style={{ display:'flex', borderRadius:6, border:`1px solid ${BORDER}`, overflow:'hidden' }}>
+            {['D','W'].map((l,i) => (
+              <button key={l} style={{ width:30, height:30, border:'none', cursor:'pointer',
+                fontSize:11, fontWeight:600, background: i===0 ? ACCENT : WHITE,
+                color: i===0 ? '#fff' : TEXT_MID, fontFamily:"'Open Sans',sans-serif" }}>{l}</button>
+            ))}
+          </div>
         </div>
       </div>
       <div style={{ marginTop:8 }}>
@@ -167,7 +174,7 @@ function TH({ children, sortable, align='left', nowrap=true }) {
   return (
     <th style={{ padding:'9px 14px', textAlign:align, fontWeight:500, color:TEXT_MID,
       fontSize:11, whiteSpace: nowrap ? 'nowrap' : 'normal',
-      background:'#FAFAFA', borderBottom:`1px solid ${BORDER}` }}>
+      background:'var(--osmos-bg-muted)', borderBottom:`1px solid ${BORDER}` }}>
       <div style={{ display:'flex', alignItems:'center', gap:3,
         justifyContent: align==='right' ? 'flex-end' : 'flex-start' }}>
         {children}{sortable && <SortIcon />}
@@ -178,7 +185,7 @@ function TH({ children, sortable, align='left', nowrap=true }) {
 function TD({ children, align='left', bold, accent, mono }) {
   return (
     <td style={{ padding:'9px 14px', fontSize:12, color: accent ? ACCENT : TEXT_HI,
-      borderBottom:`1px solid #F5F5F5`, textAlign:align,
+      borderBottom:`1px solid var(--osmos-border)`, textAlign:align,
       fontWeight: bold ? 600 : 400,
       fontFamily: mono ? 'monospace' : "'Open Sans',sans-serif",
       cursor: accent ? 'pointer' : 'default',
@@ -204,7 +211,7 @@ function TotalRow({ children }) {
 }
 function FooterNote() {
   return (
-    <div style={{ padding:'8px 20px', borderTop:`1px solid #F5F5F5` }}>
+    <div style={{ padding:'8px 20px', borderTop:`1px solid var(--osmos-border)` }}>
       <span style={{ fontSize:10, color:TEXT_LO, fontStyle:'italic' }}>1 Filter applicable: Date</span>
     </div>
   );
@@ -229,9 +236,8 @@ function CampaignTable() {
   return (
     <div style={{ background:WHITE, borderRadius:8, border:`1px solid ${BORDER}`, marginBottom:16, overflow:'hidden' }}>
       <Toolbar title="Campaign performance report" count={CAMPAIGNS.length} countLabel="campaigns"
-        icon={<><rect x="3" y="3" width="18" height="18" rx="2"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="9" y1="21" x2="9" y2="9"/></>}>
-        <Btn label="Create Campaign" primary />
-      </Toolbar>
+        icon={<><rect x="3" y="3" width="18" height="18" rx="2"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="9" y1="21" x2="9" y2="9"/></>}
+      />
       <div style={{ overflowX:'auto' }}>
         <table style={{ width:'100%', borderCollapse:'collapse' }}>
           <thead>
@@ -298,16 +304,15 @@ function NumCell({ v, warn }) {
   return (
     <td style={{ padding:'9px 14px', fontSize:12, color: warn && v > 40 ? RED : TEXT_HI,
       fontWeight: warn && v > 40 ? 600 : 400, textAlign:'right',
-      borderBottom:`1px solid #F5F5F5` }}>{v}</td>
+      borderBottom:`1px solid var(--osmos-border)` }}>{v}</td>
   );
 }
 function AdvertiserSnapshot() {
   return (
     <div style={{ background:WHITE, borderRadius:8, border:`1px solid ${BORDER}`, marginBottom:16, overflow:'hidden' }}>
       <Toolbar title="Advertiser snapshot" count={SNAPSHOT.length} countLabel="categories"
-        icon={<><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></>}>
-        <Btn label="Create Campaign" primary />
-      </Toolbar>
+        icon={<><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></>}
+      />
       <div style={{ overflowX:'auto' }}>
         <table style={{ width:'100%', borderCollapse:'collapse' }}>
           <thead>
@@ -350,7 +355,7 @@ function AdvertiserSnapshot() {
           </tbody>
         </table>
       </div>
-      <div style={{ padding:'8px 20px', borderTop:`1px solid #F5F5F5`, display:'flex', justifyContent:'space-between' }}>
+      <div style={{ padding:'8px 20px', borderTop:`1px solid var(--osmos-border)`, display:'flex', justifyContent:'space-between' }}>
         <span style={{ fontSize:10, color:TEXT_LO, fontStyle:'italic' }}>Comparison mode not applicable • One Filter Applicable: Date</span>
       </div>
     </div>
@@ -372,7 +377,7 @@ const BUDGET_DATA = [
 function BudgetChart() {
   return (
     <div style={{ background:WHITE, borderRadius:8, border:`1px solid ${BORDER}`, overflow:'hidden', flex:1 }}>
-      <div style={{ padding:'14px 20px', borderBottom:`1px solid #F5F5F5`,
+      <div style={{ padding:'14px 20px', borderBottom:`1px solid var(--osmos-border)`,
         display:'flex', alignItems:'center', justifyContent:'space-between' }}>
         <div style={{ display:'flex', alignItems:'center', gap:8 }}>
           <div style={{ width:28, height:28, background:'#FFF0F0', borderRadius:6,
@@ -397,7 +402,7 @@ function BudgetChart() {
       <div style={{ padding:'12px 8px 8px' }}>
         <ResponsiveContainer width="100%" height={220}>
           <ComposedChart data={BUDGET_DATA} margin={{ top:4, right:40, left:-10, bottom:0 }}>
-            <CartesianGrid strokeDasharray="3 3" stroke="#F5F5F5" vertical={false} />
+            <CartesianGrid strokeDasharray="3 3" stroke="var(--osmos-border)" vertical={false} />
             <XAxis dataKey="date" tick={{ fontSize:10, fill:'#999' }} axisLine={false} tickLine={false} />
             <YAxis yAxisId="left" domain={[0,130]} ticks={[30,60,90,120]}
               tickFormatter={v=>`${v}%`} tick={{ fontSize:10, fill:'#999' }} axisLine={false} tickLine={false} />
@@ -435,9 +440,8 @@ function MoversTable() {
   return (
     <div style={{ background:WHITE, borderRadius:8, border:`1px solid ${BORDER}`, marginBottom:16, overflow:'hidden' }}>
       <Toolbar title="Movers And Shakers" count={MOVERS.length} countLabel="advertisers"
-        icon={<><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></>}>
-        <Btn label="Create Campaign" primary />
-      </Toolbar>
+        icon={<><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></>}
+      />
       <div style={{ overflowX:'auto' }}>
         <table style={{ width:'100%', borderCollapse:'collapse' }}>
           <thead>
@@ -470,7 +474,7 @@ function MoversTable() {
           </tbody>
         </table>
       </div>
-      <div style={{ padding:'8px 20px', borderTop:`1px solid #F5F5F5` }}>
+      <div style={{ padding:'8px 20px', borderTop:`1px solid var(--osmos-border)` }}>
         <span style={{ fontSize:10, color:TEXT_LO, fontStyle:'italic' }}>Comparison mode not applicable • One Filter Applicable: Date</span>
       </div>
     </div>
@@ -501,7 +505,7 @@ function AdFormatSection() {
       {/* Donut */}
       <div style={{ background:WHITE, borderRadius:8, border:`1px solid ${BORDER}`,
         overflow:'hidden', width:300, flexShrink:0 }}>
-        <div style={{ padding:'14px 20px', borderBottom:`1px solid #F5F5F5`,
+        <div style={{ padding:'14px 20px', borderBottom:`1px solid var(--osmos-border)`,
           display:'flex', alignItems:'center', justifyContent:'space-between' }}>
           <div style={{ display:'flex', alignItems:'center', gap:8 }}>
             <div style={{ width:28, height:28, background:'#F0F4FF', borderRadius:6,
@@ -775,9 +779,8 @@ function AdvDimTable() {
   return (
     <div style={{ background:WHITE, borderRadius:8, border:`1px solid ${BORDER}`, marginBottom:16, overflow:'hidden' }}>
       <Toolbar title="Advertiser Dimension Report" count={ADV_DIM.length} countLabel="advertisers"
-        icon={<><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2"/></>}>
-        <Btn label="Create Campaign" primary />
-      </Toolbar>
+        icon={<><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2"/></>}
+      />
       <div style={{ overflowX:'auto' }}>
         <table style={{ width:'100%', borderCollapse:'collapse' }}>
           <thead>
@@ -824,7 +827,7 @@ function AdvDimTable() {
           </tbody>
         </table>
       </div>
-      <div style={{ padding:'10px 20px', borderTop:`1px solid #F5F5F5`,
+      <div style={{ padding:'10px 20px', borderTop:`1px solid var(--osmos-border)`,
         display:'flex', justifyContent:'space-between', alignItems:'center' }}>
         <span style={{ fontSize:10, color:TEXT_LO, fontStyle:'italic' }}>
           Comparison mode not applicable • Showing {ADV_DIM.length} advertisers
@@ -845,19 +848,9 @@ function AdvDimTable() {
 }
 
 /* ══════════════════════════════════════════════════════════════
-   TABS
-═══════════════════════════════════════════════════════════════ */
-const TABS = [
-  'Ad Program Insights','Product Ads Insights','Display Ads Insights',
-  'Retailer Level Insights','Seller level Insights','Brand Level Insights','Offsite Ads Insights',
-];
-
-/* ══════════════════════════════════════════════════════════════
-   ROOT PAGE
+   ROOT PAGE — sections flow directly, no tab container
 ═══════════════════════════════════════════════════════════════ */
 export default function AdvertiserInsightsPage() {
-  const [activeTab, setActiveTab] = useState(0);
-
   return (
     <div style={{ padding:'24px', fontFamily:"'Open Sans',sans-serif" }}>
 
@@ -866,17 +859,17 @@ export default function AdvertiserInsightsPage() {
         {FUNNEL.map((s,i) => <FunnelCard key={s.label} stat={s} i={i} last={i===FUNNEL.length-1} />)}
       </div>
 
-      {/* ── Two line charts (Ad Revenue vs CTR  |  Clicks vs CPC) ── */}
+      {/* ── Two line charts: Ad Revenue vs CTR | Clicks vs CPC ── */}
       <div style={{ display:'flex', gap:16, marginBottom:16 }}>
         {[
-          { left:'Ad Revenue', lKey:'revenue', lColor:ACCENT, lFmt:v=>`$${v}M`,
-            right:'CTR', rKey:'ctr', rColor:'#8B5CF6', rFmt:v=>`${v}%`, data:revenueCtData },
-          { left:'Clicks', lKey:'clicks', lColor:'#EC4899', lFmt:v=>`${v}M`,
-            right:'CPC', rKey:'cpc', rColor:'#10B981', rFmt:v=>`$${v}`, data:clicksCpcData },
+          { left:'Ad Revenue', lKey:'revenue', lColor:ACCENT,    lFmt:v=>`$${v}M`,
+            right:'CTR',       rKey:'ctr',     rColor:'#8B5CF6', rFmt:v=>`${v}%`, data:revenueCtData },
+          { left:'Clicks',     lKey:'clicks',  lColor:'#EC4899', lFmt:v=>`${v}M`,
+            right:'CPC',       rKey:'cpc',     rColor:'#10B981', rFmt:v=>`$${v}`, data:clicksCpcData },
         ].map((chart,ci) => (
           <div key={ci} style={{ background:WHITE, borderRadius:8, border:`1px solid ${BORDER}`,
             overflow:'hidden', flex:1 }}>
-            <div style={{ padding:'12px 16px', borderBottom:`1px solid #F8F8F8`,
+            <div style={{ padding:'12px 16px', borderBottom:`1px solid var(--osmos-border)`,
               display:'flex', alignItems:'center', justifyContent:'space-between' }}>
               <div style={{ display:'flex', alignItems:'center', gap:10 }}>
                 <div style={{ width:26, height:26, background:'#F0F4FF', borderRadius:6,
@@ -901,7 +894,7 @@ export default function AdvertiserInsightsPage() {
             <div style={{ padding:'12px 8px 4px' }}>
               <ResponsiveContainer width="100%" height={200}>
                 <LineChart data={chart.data} margin={{ top:4, right:8, left:-12, bottom:0 }}>
-                  <CartesianGrid strokeDasharray="3 3" stroke="#F5F5F5" vertical={false} />
+                  <CartesianGrid strokeDasharray="3 3" stroke="var(--osmos-border)" vertical={false} />
                   <XAxis dataKey="date" tick={{ fontSize:10, fill:'#999' }} axisLine={false} tickLine={false} />
                   <YAxis yAxisId="l" tick={{ fontSize:10, fill:'#999' }} axisLine={false} tickLine={false} tickFormatter={chart.lFmt} />
                   <YAxis yAxisId="r" orientation="right" tick={{ fontSize:10, fill:'#999' }} axisLine={false} tickLine={false} tickFormatter={chart.rFmt} />
@@ -911,49 +904,26 @@ export default function AdvertiserInsightsPage() {
                 </LineChart>
               </ResponsiveContainer>
             </div>
-            <div style={{ padding:'4px 16px 10px', borderTop:`1px solid #F8F8F8` }}>
+            <div style={{ padding:'4px 16px 10px', borderTop:`1px solid var(--osmos-border)` }}>
               <span style={{ fontSize:10, color:TEXT_LO, fontStyle:'italic' }}>1 Filter applicable: Date</span>
             </div>
           </div>
         ))}
       </div>
 
-      {/* ── Section tabs ── */}
-      <div style={{ background:WHITE, borderRadius:8, border:`1px solid ${BORDER}`, marginBottom:16, overflow:'hidden' }}>
-        <div style={{ display:'flex', alignItems:'stretch', borderBottom:`1px solid ${BORDER}`,
-          overflowX:'auto', padding:'0 16px' }}>
-          {TABS.map((tab,i) => {
-            const active = activeTab === i;
-            return (
-              <button key={i} onClick={() => setActiveTab(i)}
-                style={{ padding:'14px 16px', whiteSpace:'nowrap', background:'none', border:'none',
-                  cursor:'pointer', fontSize:13, fontWeight: active ? 600 : 400,
-                  color: active ? ACCENT : TEXT_MID,
-                  borderBottom: active ? `2px solid ${ACCENT}` : '2px solid transparent',
-                  marginBottom:-1, transition:'all 0.15s', fontFamily:"'Open Sans',sans-serif" }}
-                onMouseEnter={e => { if(!active) e.currentTarget.style.color=TEXT_HI; }}
-                onMouseLeave={e => { if(!active) e.currentTarget.style.color=TEXT_MID; }}>
-                {tab}
-              </button>
-            );
-          })}
-        </div>
-
-        <div style={{ padding:'20px' }}>
-          <CampaignTable />
-          <AdvertiserSnapshot />
-          <BudgetChart />
-          <div style={{ height:16 }}/>
-          <MoversTable />
-          <AdFormatSection />
-          <ChannelTable />
-          <AudienceTable />
-          <AdvDimTable />
-        </div>
-      </div>
+      {/* ── All report sections, directly on page (no tab wrapper) ── */}
+      <CampaignTable />
+      <AdvertiserSnapshot />
+      <BudgetChart />
+      <div style={{ height:16 }}/>
+      <MoversTable />
+      <AdFormatSection />
+      <ChannelTable />
+      <AudienceTable />
+      <AdvDimTable />
 
       <div style={{ display:'flex', alignItems:'center', justifyContent:'space-between',
-        padding:'0 0 16px', fontSize:10, color:TEXT_LO, fontStyle:'italic' }}>
+        padding:'8px 0 16px', fontSize:10, color:TEXT_LO, fontStyle:'italic' }}>
         <span>Data as of 14 May 2025 • Refresh every 4 hours</span>
         <span style={{ fontStyle:'normal' }}>© 2017 - 2026 OSK Techlabs Private Ltd. All rights reserved.</span>
       </div>

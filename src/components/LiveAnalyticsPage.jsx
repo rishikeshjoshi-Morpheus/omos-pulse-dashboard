@@ -24,10 +24,10 @@ const KPI_CHIPS = [
   { label: 'Product Ad CPM',     value: '70%', tone: 'positive' },
 ];
 function KpiChip({ label, value, tone }) {
-  const color = tone === 'positive' ? '#1BA87A' : '#6366F1';
-  const bg = tone === 'positive' ? 'rgba(27,168,122,0.1)' : 'rgba(99,102,241,0.1)';
+  const color = tone === 'positive' ? 'var(--osmos-brand-green)' : 'var(--osmos-brand-primary)';
+  const bg = tone === 'positive' ? 'var(--osmos-brand-green-muted)' : 'var(--osmos-brand-primary-muted)';
   return (
-    <Flex align="center" gap="2" bg="white" border="1px solid" borderColor="#E4E7EC" borderRadius="md" px="3" py="2" flex="1" minW="150px">
+    <Flex align="center" gap="2" bg="white" border="1px solid" borderColor="border" borderRadius="md" px="3" py="2" flex="1" minW="150px">
       <Box background={bg} color={color} borderRadius="full" px="2" py="0.5" fontSize="xs" fontWeight="700">{value}</Box>
       <Text fontSize="xs" color="fg" fontWeight="500" flex="1">{label}</Text>
     </Flex>
@@ -63,11 +63,11 @@ const CAMPAIGN_ROWS = [
 
 function Panel({ title, icon, toolbar, children, footerNote }) {
   return (
-    <Card variant="outline" bg="white" borderColor="#E4E7EC" boxShadow="0 1px 2px rgba(0,0,0,0.04)">
-      <Card.Header pb="3">
+    <Card variant="outline" bg="bg" borderColor="border" boxShadow="xs">
+      <Card.Header px="5" pt="4" pb="3">
         <Flex align="center" justify="space-between" gap="4" wrap="wrap">
           <Flex align="center" gap="2">
-            {icon && <Box color="#6366F1" display="flex" alignItems="center">{icon}</Box>}
+            {icon && <Box color="var(--osmos-brand-primary)" display="flex" alignItems="center">{icon}</Box>}
             <Heading size="sm" fontWeight="600" color="fg">{title}</Heading>
             <Badge variant="subtle" colorPalette="gray" size="xs" borderRadius="full" width="14px" height="14px" p="0" display="inline-flex" alignItems="center" justifyContent="center" fontSize="9px">i</Badge>
           </Flex>
@@ -87,7 +87,7 @@ function IconBtn({ icon, 'aria-label': ariaLabel }) {
 }
 function SearchInput({ placeholder, minW = '220px' }) {
   return (
-    <Flex align="center" gap="2" border="1px solid" borderColor="#E4E7EC" borderRadius="md" px="2" height="28px" bg="white" minW={minW}>
+    <Flex align="center" gap="2" border="1px solid" borderColor="border" borderRadius="md" px="2" height="28px" bg="white" minW={minW}>
       <Box color="fg.muted">{IconSearch}</Box>
       <Text fontSize="xs" color="fg.muted">{placeholder}</Text>
     </Flex>
@@ -95,16 +95,16 @@ function SearchInput({ placeholder, minW = '220px' }) {
 }
 function PageToolbar() {
   return (
-    <Flex align="center" justify="space-between" px="4" py="3" bg="white" borderBottom="1px solid" borderColor="#E4E7EC">
+    <Flex align="center" justify="space-between" px="4" py="3" bg="white" borderBottom="1px solid" borderColor="border">
       <Flex align="center" gap="2">
-        <Box color="#6366F1" display="flex" alignItems="center">{IconBolt}</Box>
+        <Box color="var(--osmos-brand-primary)" display="flex" alignItems="center">{IconBolt}</Box>
         <Heading size="md" fontWeight="600">Live Insights</Heading>
       </Flex>
       <Flex align="center" gap="2">
         <IconBtn icon={IconSearch} aria-label="Search" />
         <IconBtn icon={IconFilter} aria-label="Filter" />
         <IconBtn icon={IconColumns} aria-label="Column settings" />
-        <Box width="1px" height="18px" background="#E4E7EC" />
+        <Box width="1px" height="18px" background="var(--osmos-border)" />
         <DropdownPill label="All Pages" />
       </Flex>
     </Flex>
@@ -112,9 +112,9 @@ function PageToolbar() {
 }
 function DataTable({ columns, rows, emptyRows = false }) {
   return (
-    <Box overflowX="auto" borderTop="1px solid" borderColor="#EEF0F3">
+    <Box overflowX="auto" borderTop="1px solid" borderColor="border">
       <Table size="sm" variant="outline" borderWidth="0">
-        <Table.Header bg="#F8F9FB">
+        <Table.Header bg="bg.muted">
           <Table.Row>
             {columns.map((c) => (
               <Table.ColumnHeader key={c.key} textAlign={c.align === 'right' ? 'right' : 'left'} fontSize="xs" fontWeight="600" color="fg.muted" textTransform="none" px="4" py="2.5" _first={{ pl: '5' }} _last={{ pr: '5' }}>{c.label}</Table.ColumnHeader>
@@ -123,7 +123,7 @@ function DataTable({ columns, rows, emptyRows = false }) {
         </Table.Header>
         <Table.Body>
           {rows.map((row, i) => (
-            <Table.Row key={i} _hover={{ bg: '#FAFBFC' }}>
+            <Table.Row key={i} _hover={{ bg: 'bg.muted' }}>
               {columns.map((c) => (
                 <Table.Cell key={c.key} textAlign={c.align === 'right' ? 'right' : 'left'} fontSize="sm" color={emptyRows && c.key !== columns[0].key ? 'fg.muted' : 'fg'} px="4" py="2.5" _first={{ pl: '5' }} _last={{ pr: '5' }}>
                   {row[c.key] || (emptyRows && c.key !== columns[0].key ? '—' : '')}
@@ -139,7 +139,7 @@ function DataTable({ columns, rows, emptyRows = false }) {
 function TrendTooltip({ active, payload, label }) {
   if (!active || !payload?.length) return null;
   return (
-    <Box bg="white" border="1px solid" borderColor="#E4E7EC" borderRadius="md" boxShadow="lg" p="3" minW="160px">
+    <Box bg="white" border="1px solid" borderColor="border" borderRadius="md" boxShadow="lg" p="3" minW="160px">
       <Text fontSize="xs" fontWeight="700" color="fg" mb="2">{label}</Text>
       <Stack gap="1">
         {payload.map((p) => (
@@ -192,9 +192,9 @@ export default function LiveAnalyticsPage() {
           toolbar={
             <Flex align="center" gap="2">
               <Flex align="center" gap="3" mr="2">
-                <Flex align="center" gap="1.5"><Box width="12px" height="2px" background="#F5B90B" /><Text fontSize="xs" color="fg.muted">Yesterday</Text></Flex>
-                <Flex align="center" gap="1.5"><Box width="12px" height="2px" background="#1BA87A" /><Text fontSize="xs" color="fg.muted">Tomorrow</Text></Flex>
-                <Flex align="center" gap="1.5"><Box width="12px" height="2px" background="#6366F1" /><Text fontSize="xs" color="fg.muted">Same day (last week)</Text></Flex>
+                <Flex align="center" gap="1.5"><Box width="12px" height="2px" background="var(--osmos-brand-amber)" /><Text fontSize="xs" color="fg.muted">Yesterday</Text></Flex>
+                <Flex align="center" gap="1.5"><Box width="12px" height="2px" background="var(--osmos-brand-green)" /><Text fontSize="xs" color="fg.muted">Tomorrow</Text></Flex>
+                <Flex align="center" gap="1.5"><Box width="12px" height="2px" background="var(--osmos-brand-primary)" /><Text fontSize="xs" color="fg.muted">Same day (last week)</Text></Flex>
               </Flex>
               <DropdownPill label="Current Epoch" />
               <IconBtn icon={IconDownload} aria-label="Download" />
@@ -204,14 +204,14 @@ export default function LiveAnalyticsPage() {
           <Box height="300px">
             <ResponsiveContainer width="100%" height="100%">
               <LineChart data={TREND_DATA} margin={{ top: 8, right: 16, left: 0, bottom: 8 }}>
-                <CartesianGrid strokeDasharray="3 3" stroke="#EEF0F3" vertical={false} />
-                <XAxis dataKey="time" stroke="#A0AEC0" fontSize={11} tickLine={false} axisLine={{ stroke: '#E4E7EC' }} />
-                <YAxis stroke="#A0AEC0" fontSize={11} tickLine={false} axisLine={{ stroke: '#E4E7EC' }} tickFormatter={(v) => `${Math.round(v * 100)}%`} domain={[0, 1]} />
+                <CartesianGrid strokeDasharray="3 3" stroke="var(--osmos-border)" vertical={false} />
+                <XAxis dataKey="time" stroke="var(--osmos-fg-subtle)" fontSize={11} tickLine={false} axisLine={{ stroke: 'var(--osmos-border)' }} />
+                <YAxis stroke="var(--osmos-fg-subtle)" fontSize={11} tickLine={false} axisLine={{ stroke: 'var(--osmos-border)' }} tickFormatter={(v) => `${Math.round(v * 100)}%`} domain={[0, 1]} />
                 <Tooltip content={<TrendTooltip />} />
                 <ReferenceLine x="12:00" stroke="#D4D7E0" strokeDasharray="3 3" />
-                <Line type="monotone" dataKey="yesterday" stroke="#F5B90B" strokeWidth={2} dot={false} />
-                <Line type="monotone" dataKey="tomorrow"  stroke="#1BA87A" strokeWidth={2} dot={false} />
-                <Line type="monotone" dataKey="lastWeek"  stroke="#6366F1" strokeWidth={2} dot={false} />
+                <Line type="monotone" dataKey="yesterday" stroke="var(--osmos-brand-amber)" strokeWidth={2} dot={false} />
+                <Line type="monotone" dataKey="tomorrow"  stroke="var(--osmos-brand-green)" strokeWidth={2} dot={false} />
+                <Line type="monotone" dataKey="lastWeek"  stroke="var(--osmos-brand-primary)" strokeWidth={2} dot={false} />
               </LineChart>
             </ResponsiveContainer>
           </Box>

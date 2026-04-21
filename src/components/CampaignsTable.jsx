@@ -4,7 +4,7 @@ import { TableCard, DataTable } from './DataTable';
 function CampaignIcon() {
   return (
     <svg width="16" height="16" viewBox="0 0 24 24" fill="none"
-      stroke="#5B6EF5" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      stroke="var(--osmos-brand-primary)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
       <path d="M22 2L11 13"/>
       <path d="M22 2L15 22l-4-9-9-4 19-7z"/>
     </svg>

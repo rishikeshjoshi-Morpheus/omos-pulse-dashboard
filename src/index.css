@@ -1,15 +1,36 @@
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
+/* ── Brand tokens (extend Osmos design system) ─────────────────── */
+:root {
+  /* Brand primary (#636CFF from Figma BrandColours/Primary) */
+  --osmos-brand-primary:       #636CFF;
+  --osmos-brand-primary-muted: rgba(99, 108, 255, 0.12);
+
+  /* Brand green (positive / success trend) */
+  --osmos-brand-green:         #1BA87A;
+  --osmos-brand-green-muted:   rgba(27, 168, 122, 0.10);
+
+  /* Brand amber (secondary chart line, PRO badge) */
+  --osmos-brand-amber:         #F5A623;
+
+  /* Left-nav chrome */
+  --osmos-nav-bg:              #1e2266;
+  --osmos-nav-panel-bg:        #212563;
+  --osmos-nav-accent:          #7B82F8;
+  --osmos-nav-border:          rgba(123, 130, 248, 0.25);
+  --osmos-nav-active-bg:       rgba(123, 130, 248, 0.20);
+}
+
 body {
   font-family: 'Open Sans', sans-serif;
-  background: #EDF0F5;
-  color: #1a1a2e;
+  background: var(--osmos-bg-subtle);
+  color: var(--osmos-fg);
   font-size: 14px;
 }
 
 /* ── Global focus ring — keyboard nav ─────────────────────────── */
 :focus-visible {
-  outline: 2px solid #5B6EF5;
+  outline: 2px solid var(--osmos-brand-primary);
   outline-offset: 2px;
   border-radius: 4px;
 }

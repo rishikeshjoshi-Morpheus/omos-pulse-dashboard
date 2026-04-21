@@ -10,7 +10,7 @@ const STATS = [
 function InfoIcon() {
   return (
     <svg width="14" height="14" viewBox="0 0 24 24" fill="none"
-      stroke="#BBBBBB" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      stroke="var(--osmos-fg-subtle)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
       <circle cx="12" cy="12" r="10"/>
       <line x1="12" y1="8" x2="12" y2="12"/>
       <line x1="12" y1="16" x2="12.01" y2="16"/>
@@ -27,30 +27,30 @@ function ChevronDown({ color = '#888' }) {
   );
 }
 
-export default function StatCards() {
+export default function StatCards({ data = STATS }) {
   return (
     <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4,1fr)', gap: 16, marginBottom: 20 }}>
-      {STATS.map(stat => {
+      {data.map(stat => {
         const isPositive = stat.pct >= 0;
         return (
           <div key={stat.label} style={{
             background: '#fff', borderRadius: 8,
             padding: '16px 20px',
             display: 'flex', flexDirection: 'column', gap: 8,
-            border: '1px solid #F0F0F0',
+            border: '1px solid var(--osmos-border)',
           }}>
             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: 4 }}>
-                <span style={{ fontSize: 12, color: '#444', fontWeight: 500 }}>{stat.label}</span>
+                <span style={{ fontSize: 12, color: 'var(--osmos-fg)', fontWeight: 500 }}>{stat.label}</span>
                 <ChevronDown />
               </div>
               <InfoIcon />
             </div>
-            <div className="tabular-nums" style={{ fontSize: 22, fontWeight: 700, color: '#1A1A2E', letterSpacing: '-0.5px' }}>
+            <div className="tabular-nums" style={{ fontSize: 22, fontWeight: 700, color: 'var(--osmos-fg)', letterSpacing: '-0.5px' }}>
               {stat.value}
             </div>
             <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
-              <span className="tabular-nums" style={{ fontSize: 11, color: '#999' }}>{stat.compValue}</span>
+              <span className="tabular-nums" style={{ fontSize: 11, color: 'var(--osmos-fg-subtle)' }}>{stat.compValue}</span>
               <span className="tabular-nums" style={{
                 fontSize: 11, fontWeight: 600,
                 color: isPositive ? '#22C55E' : '#EF4444',

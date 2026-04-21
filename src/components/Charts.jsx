@@ -60,7 +60,7 @@ function MetricTag({ color, label }) {
   return (
     <div style={{ display: 'flex', alignItems: 'center', gap: 5, cursor: 'pointer' }}>
       <div style={{ width: 10, height: 10, borderRadius: '50%', background: color }}/>
-      <span style={{ fontSize: 11, color: '#333', fontWeight: 500 }}>{label}</span>
+      <span style={{ fontSize: 11, color: 'var(--osmos-fg)', fontWeight: 500 }}>{label}</span>
       <ChevronDown />
     </div>
   );
@@ -70,17 +70,17 @@ const CustomTooltip = ({ active, payload, label }) => {
   if (!active || !payload?.length) return null;
   return (
     <div style={{
-      background: '#fff', border: '1px solid #E8E8E8', borderRadius: 8,
+      background: '#fff', border: '1px solid var(--osmos-border)', borderRadius: 8,
       padding: '10px 14px', boxShadow: '0 4px 16px rgba(0,0,0,0.10)', minWidth: 160,
     }}>
-      <div style={{ fontSize: 10, color: '#999', marginBottom: 8, fontWeight: 500 }}>{label}</div>
+      <div style={{ fontSize: 10, color: 'var(--osmos-fg-subtle)', marginBottom: 8, fontWeight: 500 }}>{label}</div>
       {payload.map((p, i) => (
         <div key={i} style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 16, marginBottom: i < payload.length - 1 ? 6 : 0 }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
             <div style={{ width: 8, height: 2, background: p.color, borderRadius: 2 }}/>
-            <span style={{ fontSize: 11, color: '#555' }}>{p.name}</span>
+            <span style={{ fontSize: 11, color: 'var(--osmos-fg-muted)' }}>{p.name}</span>
           </div>
-          <span style={{ fontSize: 11, fontWeight: 600, color: '#222' }}>
+          <span style={{ fontSize: 11, fontWeight: 600, color: 'var(--osmos-fg)' }}>
             {p.value >= 1000000
               ? `${(p.value / 1000000).toFixed(1)}M`
               : p.value >= 1000
@@ -97,21 +97,21 @@ function ChartCard({ title, children, leftMetrics, rightMetric }) {
   return (
     <div style={{
       background: '#fff', borderRadius: 8, flex: 1,
-      border: '1px solid #F0F0F0', overflow: 'hidden',
+      border: '1px solid var(--osmos-border)', overflow: 'hidden',
     }}>
       {/* Header */}
       <div style={{
         padding: '14px 16px 10px',
         display: 'flex', alignItems: 'center', justifyContent: 'space-between',
-        borderBottom: '1px solid #F5F5F5',
+        borderBottom: '1px solid var(--osmos-border)',
       }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
           <div style={{
-            width: 28, height: 28, background: '#F0F4FF', borderRadius: 6,
+            width: 28, height: 28, background: 'var(--osmos-bg-muted)', borderRadius: 6,
             display: 'flex', alignItems: 'center', justifyContent: 'center',
           }}>
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none"
-              stroke="#5B6EF5" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              stroke="var(--osmos-brand-primary)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
               <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/>
             </svg>
           </div>
@@ -129,8 +129,8 @@ function ChartCard({ title, children, leftMetrics, rightMetric }) {
       <div style={{ padding: '12px 8px 8px' }}>
         {children}
       </div>
-      <div style={{ padding: '4px 16px 10px', fontSize: 10, color: '#999', textAlign: 'right' }}>
-        1 Filter Applicable: <span style={{ color: '#5B6EF5', fontWeight: 500 }}>Date</span>
+      <div style={{ padding: '4px 16px 10px', fontSize: 10, color: 'var(--osmos-fg-subtle)', textAlign: 'right' }}>
+        1 Filter Applicable: <span style={{ color: 'var(--osmos-brand-primary)', fontWeight: 500 }}>Date</span>
       </div>
     </div>
   );
@@ -141,50 +141,50 @@ export default function Charts() {
     <div style={{ display: 'flex', gap: 16, marginBottom: 20 }}>
       {/* Chart 1: Link Clicks vs Landing Page views */}
       <ChartCard
-        leftMetrics={<MetricTag color="#5B6EF5" label="Link Clicks" />}
-        rightMetric={<MetricTag color="#F5A623" label="Landing Page views" />}
+        leftMetrics={<MetricTag color="var(--osmos-brand-primary)" label="Link Clicks" />}
+        rightMetric={<MetricTag color="var(--osmos-brand-amber)" label="Landing Page views" />}
       >
         <ResponsiveContainer width="100%" height={200}>
           <LineChart data={clicksData} margin={{ top: 4, right: 8, left: -10, bottom: 0 }}
             aria-label="Line chart showing Link Clicks vs Landing Page Views over the selected date range">
-            <CartesianGrid strokeDasharray="3 3" stroke="#F5F5F5" vertical={false} />
-            <XAxis dataKey="date" tick={{ fontSize: 11, fill: '#999' }} axisLine={false} tickLine={false} />
-            <YAxis tickFormatter={formatYAxis} tick={{ fontSize: 11, fill: '#999' }} axisLine={false} tickLine={false} />
+            <CartesianGrid strokeDasharray="3 3" stroke="var(--osmos-border)" vertical={false} />
+            <XAxis dataKey="date" tick={{ fontSize: 11, fill: 'var(--osmos-fg-subtle)' }} axisLine={false} tickLine={false} />
+            <YAxis tickFormatter={formatYAxis} tick={{ fontSize: 11, fill: 'var(--osmos-fg-subtle)' }} axisLine={false} tickLine={false} />
             <Tooltip content={<CustomTooltip />} />
             <Legend
               verticalAlign="bottom" height={28} iconType="plainline"
-              formatter={(val) => <span style={{ fontSize: 11, color: '#555', fontFamily: "'Open Sans', sans-serif" }}>{val}</span>}
+              formatter={(val) => <span style={{ fontSize: 11, color: 'var(--osmos-fg-muted)', fontFamily: "'Open Sans', sans-serif" }}>{val}</span>}
             />
-            <Line type="monotone" dataKey="clicks" stroke="#5B6EF5" strokeWidth={2}
-              dot={false} activeDot={{ r: 4, fill: '#5B6EF5' }} name="Link Clicks" />
-            <Line type="monotone" dataKey="views" stroke="#F5A623" strokeWidth={2}
+            <Line type="monotone" dataKey="clicks" stroke="var(--osmos-brand-primary)" strokeWidth={2}
+              dot={false} activeDot={{ r: 4, fill: 'var(--osmos-brand-primary)' }} name="Link Clicks" />
+            <Line type="monotone" dataKey="views" stroke="var(--osmos-brand-amber)" strokeWidth={2}
               strokeDasharray="5 3"
-              dot={false} activeDot={{ r: 4, fill: '#F5A623' }} name="Landing Page views" />
+              dot={false} activeDot={{ r: 4, fill: 'var(--osmos-brand-amber)' }} name="Landing Page views" />
           </LineChart>
         </ResponsiveContainer>
       </ChartCard>
 
       {/* Chart 2: Overall Add to Carts vs Orders */}
       <ChartCard
-        leftMetrics={<MetricTag color="#5B6EF5" label="Overall Add to Carts" />}
-        rightMetric={<MetricTag color="#F5A623" label="Orders" />}
+        leftMetrics={<MetricTag color="var(--osmos-brand-primary)" label="Overall Add to Carts" />}
+        rightMetric={<MetricTag color="var(--osmos-brand-amber)" label="Orders" />}
       >
         <ResponsiveContainer width="100%" height={200}>
           <LineChart data={cartOrdersData} margin={{ top: 4, right: 8, left: -10, bottom: 0 }}
             aria-label="Line chart showing Overall Add to Carts vs Orders over the selected date range">
-            <CartesianGrid strokeDasharray="3 3" stroke="#F5F5F5" vertical={false} />
-            <XAxis dataKey="date" tick={{ fontSize: 11, fill: '#999' }} axisLine={false} tickLine={false} />
-            <YAxis tickFormatter={formatYAxisM} tick={{ fontSize: 11, fill: '#999' }} axisLine={false} tickLine={false} />
+            <CartesianGrid strokeDasharray="3 3" stroke="var(--osmos-border)" vertical={false} />
+            <XAxis dataKey="date" tick={{ fontSize: 11, fill: 'var(--osmos-fg-subtle)' }} axisLine={false} tickLine={false} />
+            <YAxis tickFormatter={formatYAxisM} tick={{ fontSize: 11, fill: 'var(--osmos-fg-subtle)' }} axisLine={false} tickLine={false} />
             <Tooltip content={<CustomTooltip />} />
             <Legend
               verticalAlign="bottom" height={28} iconType="plainline"
-              formatter={(val) => <span style={{ fontSize: 11, color: '#555', fontFamily: "'Open Sans', sans-serif" }}>{val}</span>}
+              formatter={(val) => <span style={{ fontSize: 11, color: 'var(--osmos-fg-muted)', fontFamily: "'Open Sans', sans-serif" }}>{val}</span>}
             />
-            <Line type="monotone" dataKey="carts" stroke="#5B6EF5" strokeWidth={2}
-              dot={false} activeDot={{ r: 5, fill: '#5B6EF5' }} name="Overall Add to Carts" />
-            <Line type="monotone" dataKey="orders" stroke="#F5A623" strokeWidth={2}
+            <Line type="monotone" dataKey="carts" stroke="var(--osmos-brand-primary)" strokeWidth={2}
+              dot={false} activeDot={{ r: 5, fill: 'var(--osmos-brand-primary)' }} name="Overall Add to Carts" />
+            <Line type="monotone" dataKey="orders" stroke="var(--osmos-brand-amber)" strokeWidth={2}
               strokeDasharray="5 3"
-              dot={false} activeDot={{ r: 5, fill: '#F5A623' }} name="Orders" />
+              dot={false} activeDot={{ r: 5, fill: 'var(--osmos-brand-amber)' }} name="Orders" />
           </LineChart>
         </ResponsiveContainer>
       </ChartCard>

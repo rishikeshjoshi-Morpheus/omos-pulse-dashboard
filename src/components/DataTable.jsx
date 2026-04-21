@@ -59,29 +59,29 @@ function ChevronDown({ size = 11, color = '#888' }) {
 /* ── Table section card ────────────────────────────────────────── */
 export function TableCard({ icon, title, searchPlaceholder, children, footerLeft, footerRight }) {
   return (
-    <div style={{ background: '#fff', borderRadius: 8, border: '1px solid #F0F0F0', overflow: 'hidden', marginBottom: 20 }}>
+    <div style={{ background: '#fff', borderRadius: 8, border: '1px solid var(--osmos-border)', overflow: 'hidden', marginBottom: 20 }}>
       {/* Card header */}
       <div style={{
         padding: '16px 20px',
         display: 'flex', alignItems: 'center', justifyContent: 'space-between',
-        borderBottom: '1px solid #F5F5F5',
+        borderBottom: '1px solid var(--osmos-border)',
       }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
           <div style={{
-            width: 28, height: 28, background: '#F0F4FF', borderRadius: 6,
+            width: 28, height: 28, background: 'var(--osmos-bg-muted)', borderRadius: 6,
             display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0,
           }}>
             {icon}
           </div>
-          <span style={{ fontSize: 14, fontWeight: 600, color: '#1A1A2E' }}>{title}</span>
+          <span style={{ fontSize: 14, fontWeight: 600, color: 'var(--osmos-fg)' }}>{title}</span>
           <InfoIcon />
         </div>
         <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
           {/* columns button */}
           <button aria-label="Toggle visible columns" style={{
             height: 36, padding: '0 10px', display: 'flex', alignItems: 'center', gap: 5,
-            background: '#fff', border: '1px solid #E0E0E0', borderRadius: 6,
-            cursor: 'pointer', fontSize: 11, color: '#555', fontFamily: 'inherit',
+            background: '#fff', border: '1px solid var(--osmos-border)', borderRadius: 6,
+            cursor: 'pointer', fontSize: 11, color: 'var(--osmos-fg-muted)', fontFamily: 'inherit',
             transition: 'background 0.12s',
           }}
             onMouseEnter={e => e.currentTarget.style.background = '#F5F5F8'}
@@ -99,11 +99,11 @@ export function TableCard({ icon, title, searchPlaceholder, children, footerLeft
           <div style={{
             height: 36, padding: '0 10px',
             display: 'flex', alignItems: 'center', gap: 6,
-            border: '1px solid #E0E0E0', borderRadius: 6, background: '#fff',
+            border: '1px solid var(--osmos-border)', borderRadius: 6, background: '#fff',
           }}>
             <SearchIcon />
             <input placeholder={searchPlaceholder || 'Search…'} aria-label={searchPlaceholder || 'Search'} style={{
-              border: 'none', outline: 'none', fontSize: 11, color: '#333',
+              border: 'none', outline: 'none', fontSize: 11, color: 'var(--osmos-fg)',
               fontFamily: 'inherit', width: 120, background: 'transparent',
             }} />
           </div>
@@ -114,14 +114,14 @@ export function TableCard({ icon, title, searchPlaceholder, children, footerLeft
       </div>
 
       {/* Add filter row */}
-      <div style={{ padding: '10px 20px', borderBottom: '1px solid #F5F5F5' }}>
+      <div style={{ padding: '10px 20px', borderBottom: '1px solid var(--osmos-border)' }}>
         <button style={{
           display: 'flex', alignItems: 'center', gap: 5,
           background: 'none', border: 'none', cursor: 'pointer',
-          fontSize: 11, color: '#5B6EF5', fontFamily: 'inherit', padding: 0,
+          fontSize: 11, color: 'var(--osmos-brand-primary)', fontFamily: 'inherit', padding: 0,
         }}>
           <svg width="13" height="13" viewBox="0 0 24 24" fill="none"
-            stroke="#5B6EF5" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+            stroke="var(--osmos-brand-primary)" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
             <line x1="12" y1="5" x2="12" y2="19"/>
             <line x1="5" y1="12" x2="19" y2="12"/>
           </svg>
@@ -137,7 +137,7 @@ export function TableCard({ icon, title, searchPlaceholder, children, footerLeft
         <div style={{
           padding: '8px 16px', background: '#F6FBFF',
           display: 'flex', justifyContent: 'space-between', alignItems: 'center',
-          fontSize: 10, color: '#999',
+          fontSize: 10, color: 'var(--osmos-fg-subtle)',
         }}>
           <span>{footerLeft || ''}</span>
           <span>{footerRight || ''}</span>
@@ -153,7 +153,7 @@ export function DataTable({ columns, rows, totals }) {
     <div style={{ overflowX: 'auto' }}>
       <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: 12 }}>
         <thead>
-          <tr style={{ background: '#FAFAFA', borderBottom: '1px solid #F0F0F0' }}>
+          <tr style={{ background: 'var(--osmos-bg-muted)', borderBottom: '1px solid var(--osmos-border)' }}>
             {columns.map((col, i) => (
               <th key={i}
                 aria-sort={col.sort ? 'none' : undefined}
@@ -161,7 +161,7 @@ export function DataTable({ columns, rows, totals }) {
                 style={{
                   padding: '10px 20px',
                   textAlign: i === 0 ? 'left' : 'right',
-                  fontWeight: 500, color: '#888', fontSize: 11,
+                  fontWeight: 500, color: 'var(--osmos-fg-muted)', fontSize: 11,
                   whiteSpace: 'nowrap',
                   cursor: col.sort ? 'pointer' : 'default',
                 }}>
@@ -177,17 +177,17 @@ export function DataTable({ columns, rows, totals }) {
         <tbody>
           {rows.map((row, ri) => (
             <tr key={ri} style={{
-              borderBottom: '1px solid #F8F8F8',
-              background: ri % 2 === 0 ? '#fff' : '#FAFCFF',
+              borderBottom: '1px solid var(--osmos-border)',
+              background: ri % 2 === 0 ? '#fff' : 'var(--osmos-bg-muted)',
             }}
               onMouseEnter={e => e.currentTarget.style.background = '#F5F8FF'}
-              onMouseLeave={e => e.currentTarget.style.background = ri % 2 === 0 ? '#fff' : '#FAFCFF'}
+              onMouseLeave={e => e.currentTarget.style.background = ri % 2 === 0 ? '#fff' : 'var(--osmos-bg-muted)'}
             >
               {row.map((cell, ci) => (
                 <td key={ci} style={{
                   padding: '10px 20px',
                   textAlign: ci === 0 ? 'left' : 'right',
-                  color: ci === 1 ? '#5B6EF5' : '#333',
+                  color: ci === 1 ? 'var(--osmos-brand-primary)' : 'var(--osmos-fg)',
                   fontWeight: ci === 1 ? 600 : 400,
                 }}>
                   {cell === '-' ? <span style={{ color: '#CCC' }}>-</span> : cell}
@@ -198,12 +198,12 @@ export function DataTable({ columns, rows, totals }) {
         </tbody>
         {totals && (
           <tfoot>
-            <tr style={{ borderTop: '2px solid #F0F0F0', background: '#FAFAFA' }}>
+            <tr style={{ borderTop: '2px solid var(--osmos-border)', background: 'var(--osmos-bg-muted)' }}>
               {totals.map((cell, ci) => (
                 <td key={ci} style={{
                   padding: '10px 20px',
                   textAlign: ci === 0 ? 'left' : 'right',
-                  fontWeight: 700, color: '#222', fontSize: 12,
+                  fontWeight: 700, color: 'var(--osmos-fg)', fontSize: 12,
                 }}>
                   {cell}
                 </td>

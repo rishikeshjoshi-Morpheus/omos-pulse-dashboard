@@ -146,12 +146,12 @@ function Heatmap({ cells }) {
 /* ── Shared panel primitives ──────────────────────────────────── */
 function Panel({ title, icon, toolbar, children, footerNote }) {
   return (
-    <Card variant="outline" bg="white" borderColor="#E4E7EC" boxShadow="0 1px 2px rgba(0,0,0,0.04)">
-      <Card.Header pb="3">
+    <Card variant="outline" bg="bg" borderColor="border" boxShadow="xs">
+      <Card.Header px="5" pt="4" pb="3">
         <Flex align="center" justify="space-between" gap="4" wrap="wrap">
           <Flex align="center" gap="2">
             {icon && (
-              <Box color="#6366F1" display="flex" alignItems="center">
+              <Box color="var(--osmos-brand-primary)" display="flex" alignItems="center">
                 {icon}
               </Box>
             )}
@@ -212,7 +212,7 @@ function SearchInput({ placeholder }) {
       align="center"
       gap="2"
       border="1px solid"
-      borderColor="#E4E7EC"
+      borderColor="border"
       borderRadius="md"
       px="2"
       height="28px"
@@ -235,10 +235,10 @@ function PageToolbar() {
       py="3"
       bg="white"
       borderBottom="1px solid"
-      borderColor="#E4E7EC"
+      borderColor="border"
     >
       <Flex align="center" gap="2">
-        <Box color="#6366F1" display="flex" alignItems="center">
+        <Box color="var(--osmos-brand-primary)" display="flex" alignItems="center">
           <SvgIcon path={<><path d="M3 3v18h18"/><path d="M7 14l4-4 4 4 4-4"/></>} size={18} />
         </Box>
         <Heading size="md" fontWeight="600">Demand & Supply</Heading>
@@ -247,13 +247,13 @@ function PageToolbar() {
         <IconBtn icon={IconSearch} aria-label="Search" />
         <IconBtn icon={IconFilter} aria-label="Filter" />
         <IconBtn icon={IconColumns} aria-label="Column settings" />
-        <Box width="1px" height="18px" background="#E4E7EC" />
+        <Box width="1px" height="18px" background="var(--osmos-border)" />
         <DropdownPill label="All Pages" />
         <Flex
           align="center"
           gap="2"
           border="1px solid"
-          borderColor="#E4E7EC"
+          borderColor="border"
           borderRadius="md"
           px="2"
           height="28px"
@@ -271,9 +271,9 @@ function PageToolbar() {
 /* ── Table helpers ────────────────────────────────────────────── */
 function DataTable({ columns, rows, totals }) {
   return (
-    <Box overflowX="auto" borderTop="1px solid" borderColor="#EEF0F3">
+    <Box overflowX="auto" borderTop="1px solid" borderColor="border">
       <Table size="sm" variant="outline" borderWidth="0">
-        <Table.Header bg="#F8F9FB">
+        <Table.Header bg="bg.muted">
           <Table.Row>
             {columns.map((c) => (
               <Table.ColumnHeader
@@ -295,7 +295,7 @@ function DataTable({ columns, rows, totals }) {
         </Table.Header>
         <Table.Body>
           {rows.map((row, i) => (
-            <Table.Row key={i} _hover={{ bg: '#FAFBFC' }}>
+            <Table.Row key={i} _hover={{ bg: 'bg.muted' }}>
               {columns.map((c) => (
                 <Table.Cell
                   key={c.key}
@@ -313,7 +313,7 @@ function DataTable({ columns, rows, totals }) {
             </Table.Row>
           ))}
           {totals && (
-            <Table.Row bg="#F8F9FB" fontWeight="600">
+            <Table.Row bg="bg.muted" fontWeight="600">
               {columns.map((c) => (
                 <Table.Cell
                   key={c.key}
@@ -449,11 +449,11 @@ export default function DemandSupplyPage() {
             <Flex align="center" gap="2">
               <Flex align="center" gap="3">
                 <Flex align="center" gap="1.5">
-                  <Box width="10px" height="10px" borderRadius="sm" background="#F5B90B" />
+                  <Box width="10px" height="10px" borderRadius="sm" background="var(--osmos-brand-amber)" />
                   <Text fontSize="xs" color="fg.muted">Non-Advertiser Members</Text>
                 </Flex>
                 <Flex align="center" gap="1.5">
-                  <Box width="10px" height="10px" borderRadius="sm" background="#1BA87A" />
+                  <Box width="10px" height="10px" borderRadius="sm" background="var(--osmos-brand-green)" />
                   <Text fontSize="xs" color="fg.muted">Advertiser Members</Text>
                 </Flex>
               </Flex>
@@ -466,12 +466,12 @@ export default function DemandSupplyPage() {
           <Box height="280px">
             <ResponsiveContainer width="100%" height="100%">
               <BarChart data={GMV_DATA} margin={{ top: 8, right: 8, left: 0, bottom: 8 }}>
-                <CartesianGrid strokeDasharray="3 3" stroke="#EEF0F3" vertical={false} />
-                <XAxis dataKey="name" stroke="#A0AEC0" fontSize={11} tickLine={false} axisLine={{ stroke: '#E4E7EC' }} />
-                <YAxis stroke="#A0AEC0" fontSize={11} tickLine={false} axisLine={{ stroke: '#E4E7EC' }} />
+                <CartesianGrid strokeDasharray="3 3" stroke="var(--osmos-border)" vertical={false} />
+                <XAxis dataKey="name" stroke="var(--osmos-fg-subtle)" fontSize={11} tickLine={false} axisLine={{ stroke: 'var(--osmos-border)' }} />
+                <YAxis stroke="var(--osmos-fg-subtle)" fontSize={11} tickLine={false} axisLine={{ stroke: 'var(--osmos-border)' }} />
                 <Tooltip cursor={{ fill: 'rgba(0,0,0,0.03)' }} contentStyle={{ fontSize: '12px', borderRadius: '6px' }} />
-                <Bar dataKey="adv" stackId="a" fill="#F5B90B" name="Non-Advertiser Members" radius={[0, 0, 0, 0]} />
-                <Bar dataKey="nonAdv" stackId="a" fill="#1BA87A" name="Advertiser Members" radius={[2, 2, 0, 0]} />
+                <Bar dataKey="adv" stackId="a" fill="var(--osmos-brand-amber)" name="Non-Advertiser Members" radius={[0, 0, 0, 0]} />
+                <Bar dataKey="nonAdv" stackId="a" fill="var(--osmos-brand-green)" name="Advertiser Members" radius={[2, 2, 0, 0]} />
               </BarChart>
             </ResponsiveContainer>
           </Box>
@@ -488,8 +488,8 @@ export default function DemandSupplyPage() {
             </Flex>
           }
         >
-          <Box borderTop="1px solid" borderColor="#EEF0F3">
-            <Flex bg="#F8F9FB" px="4" py="2.5" gap="8">
+          <Box borderTop="1px solid" borderColor="border">
+            <Flex bg="bg.muted" px="4" py="2.5" gap="8">
               {['Category L1', 'Total Search Volume', 'High Demand Search Queries', 'Response Rate of High Demand Search Queries'].map((c) => (
                 <Text key={c} fontSize="xs" fontWeight="600" color="fg.muted" flex="1">
                   {c}

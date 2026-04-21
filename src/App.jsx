@@ -17,7 +17,7 @@ import AdvertiserInsightsPage from './components/AdvertiserInsightsPage';
 function AnalyticsDashboard({ bare = false }) {
   if (bare) {
     return (
-      <div style={{ padding: '24px', fontFamily: "'Open Sans', sans-serif", color: '#7B7B7B', fontSize: 14 }}>
+      <div style={{ padding: '24px', fontFamily: "'Open Sans', sans-serif", color: 'var(--osmos-fg-muted)', fontSize: 14 }}>
         Page coming soon…
       </div>
     );
@@ -51,7 +51,7 @@ export default function App() {
         return (
           <div style={{ flex: 1, display: 'flex', flexDirection: 'column', minWidth: 0 }}>
             <TopBar section="Analytics" page="Advertiser Insights" />
-            <main style={{ flex: 1, overflowY: 'auto', background: '#EDF0F5' }}>
+            <main style={{ flex: 1, overflowY: 'auto', background: 'var(--osmos-bg-subtle)' }}>
               <AdvertiserInsightsPage />
             </main>
           </div>
@@ -60,7 +60,7 @@ export default function App() {
         return (
           <div style={{ flex: 1, display: 'flex', flexDirection: 'column', minWidth: 0 }}>
             <TopBar section="Analytics" page="Live Insights" />
-            <main style={{ flex: 1, overflowY: 'auto', background: '#EDF0F5' }}>
+            <main style={{ flex: 1, overflowY: 'auto', background: 'var(--osmos-bg-subtle)' }}>
               <LiveAnalyticsPage />
             </main>
           </div>
@@ -69,7 +69,7 @@ export default function App() {
         return (
           <div style={{ flex: 1, display: 'flex', flexDirection: 'column', minWidth: 0 }}>
             <TopBar section="Analytics" page="Demand & Supply" />
-            <main style={{ flex: 1, overflowY: 'auto', background: '#EDF0F5' }}>
+            <main style={{ flex: 1, overflowY: 'auto', background: 'var(--osmos-bg-subtle)' }}>
               <DemandSupplyPage />
             </main>
           </div>
@@ -78,7 +78,7 @@ export default function App() {
         return (
           <div style={{ flex: 1, display: 'flex', flexDirection: 'column', minWidth: 0 }}>
             <TopBar section="Analytics" page="Scheduled Reports" />
-            <main style={{ flex: 1, overflowY: 'auto', background: '#EDF0F5' }}>
+            <main style={{ flex: 1, overflowY: 'auto', background: 'var(--osmos-bg-subtle)' }}>
               <AnalyticsDashboard bare />
             </main>
           </div>
@@ -87,7 +87,7 @@ export default function App() {
         return (
           <div style={{ flex: 1, display: 'flex', flexDirection: 'column', minWidth: 0 }}>
             <TopBar section="Analytics" page="BU Analytics" />
-            <main style={{ flex: 1, overflowY: 'auto', background: '#EDF0F5' }}>
+            <main style={{ flex: 1, overflowY: 'auto', background: 'var(--osmos-bg-subtle)' }}>
               <AnalyticsDashboard bare />
             </main>
           </div>
@@ -98,7 +98,7 @@ export default function App() {
   }
 
   return (
-    <div style={{ display: 'flex', minHeight: '100vh', background: '#EDF0F5' }}>
+    <div style={{ display: 'flex', minHeight: '100vh', background: 'var(--osmos-bg-subtle)' }}>
       <LeftNav activePage={activePage} onPageChange={setActivePage} />
       {renderPage()}
     </div>

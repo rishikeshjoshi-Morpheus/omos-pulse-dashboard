@@ -5,17 +5,17 @@ import {
 } from 'recharts';
 
 /* ── palette & tokens ─────────────────────────────────────────── */
-const BG       = '#EDF0F5';
-const WHITE    = '#fff';
-const BORDER   = '#E8E8E8';
-const NAV_BG   = '#212563';
-const ACCENT   = '#5B6EF5';
-const TEXT_HI  = '#404040';
-const TEXT_MID = '#7B7B7B';
-const TEXT_LO  = '#AAAAAA';
-const GREEN    = '#22C55E';
-const RED      = '#EF4444';
-const ORANGE   = '#F5A623';
+const BG       = 'var(--osmos-bg-subtle)';
+const WHITE    = 'var(--osmos-bg)';
+const BORDER   = 'var(--osmos-border)';
+const NAV_BG   = 'var(--osmos-nav-bg)';
+const ACCENT   = 'var(--osmos-brand-primary)';
+const TEXT_HI  = 'var(--osmos-fg)';
+const TEXT_MID = 'var(--osmos-fg-muted)';
+const TEXT_LO  = 'var(--osmos-fg-subtle)';
+const GREEN    = '#22C55E';        // semantic positive — keep
+const RED      = '#EF4444';        // semantic negative — keep
+const ORANGE   = 'var(--osmos-brand-amber)';
 
 /* ── shared atoms ─────────────────────────────────────────────── */
 function Icon({ children, size = 16, color = 'currentColor', strokeWidth = 1.8 }) {
@@ -111,7 +111,7 @@ function ChartCard({ leftMetric, leftColor, rightMetric, rightColor, data, leftK
       <div style={{
         padding: '12px 16px', display: 'flex',
         alignItems: 'center', justifyContent: 'space-between',
-        borderBottom: `1px solid #F8F8F8`,
+        borderBottom: `1px solid var(--osmos-border)`,
       }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
           <div style={{ width: 26, height: 26, background: '#F0F4FF', borderRadius: 6, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
@@ -128,9 +128,9 @@ function ChartCard({ leftMetric, leftColor, rightMetric, rightColor, data, leftK
         {hasData ? (
           <ResponsiveContainer width="100%" height={200}>
             <LineChart data={data} margin={{ top: 4, right: 8, left: -12, bottom: 0 }}>
-              <CartesianGrid strokeDasharray="3 3" stroke="#F5F5F5" vertical={false} />
-              <XAxis dataKey="date" tick={{ fontSize: 10, fill: '#999' }} axisLine={false} tickLine={false} />
-              <YAxis tick={{ fontSize: 10, fill: '#999' }} axisLine={false} tickLine={false} />
+              <CartesianGrid strokeDasharray="3 3" stroke="var(--osmos-border)" vertical={false} />
+              <XAxis dataKey="date" tick={{ fontSize: 10, fill: 'var(--osmos-fg-subtle)' }} axisLine={false} tickLine={false} />
+              <YAxis tick={{ fontSize: 10, fill: 'var(--osmos-fg-subtle)' }} axisLine={false} tickLine={false} />
               <Tooltip />
               <Line type="monotone" dataKey={leftKey} stroke={leftColor} strokeWidth={1.5} dot={false} name={leftLabel} />
               <Line type="monotone" dataKey={rightKey} stroke={rightColor} strokeWidth={1.5} dot={false} name={rightLabel} />
@@ -168,7 +168,7 @@ function ProjectsTable() {
       <div style={{
         padding: '16px 20px', display: 'flex',
         alignItems: 'center', justifyContent: 'space-between',
-        borderBottom: `1px solid #F5F5F5`,
+        borderBottom: `1px solid var(--osmos-border)`,
       }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
           <div style={{ width: 28, height: 28, background: '#FFF0F0', borderRadius: 6, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
@@ -181,7 +181,7 @@ function ProjectsTable() {
           <button style={{
             height: 32, padding: '0 10px', display: 'flex', alignItems: 'center', gap: 5,
             background: WHITE, border: `1px solid ${BORDER}`, borderRadius: 6,
-            cursor: 'pointer', fontSize: 11, color: '#555', fontFamily: "'Open Sans', sans-serif",
+            cursor: 'pointer', fontSize: 11, color: 'var(--osmos-fg-muted)', fontFamily: "'Open Sans', sans-serif",
           }}>
             <Icon size={13} color="#666"><rect x="3" y="3" width="18" height="18" rx="2"/><line x1="9" y1="3" x2="9" y2="21"/><line x1="15" y1="3" x2="15" y2="21"/></Icon>
             <ChevDown size={10} />
@@ -192,7 +192,7 @@ function ProjectsTable() {
           }}>
             <Icon size={13} color={TEXT_LO}><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></Icon>
             <input placeholder="Search" style={{
-              border: 'none', outline: 'none', fontSize: 11, color: '#333',
+              border: 'none', outline: 'none', fontSize: 11, color: 'var(--osmos-fg)',
               fontFamily: "'Open Sans', sans-serif", width: 100, background: 'transparent',
             }} />
           </div>
@@ -203,7 +203,7 @@ function ProjectsTable() {
       <div style={{ overflowX: 'auto' }}>
         <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: 12 }}>
           <thead>
-            <tr style={{ background: '#FAFAFA', borderBottom: `1px solid #F0F0F0` }}>
+            <tr style={{ background: 'var(--osmos-bg-muted)', borderBottom: `1px solid var(--osmos-border)` }}>
               {PROJECT_COLS.map((col, i) => (
                 <th key={col} style={{
                   padding: '10px 16px', textAlign: 'left',
@@ -343,13 +343,13 @@ function HomeTopBar() {
             width: 44, height: 44, display: 'flex', flexDirection: 'column',
             alignItems: 'center', justifyContent: 'center', gap: 2,
             background: WHITE, border: `1px solid ${BORDER}`, borderRadius: 8,
-            cursor: 'pointer', color: '#555', transition: 'background 0.12s',
+            cursor: 'pointer', color: 'var(--osmos-fg-muted)', transition: 'background 0.12s',
           }}
             onMouseEnter={e => e.currentTarget.style.background = '#F5F5F8'}
             onMouseLeave={e => e.currentTarget.style.background = WHITE}
           >
             <Icon size={15}>{svg}</Icon>
-            <span style={{ fontSize: 8, color: '#999', fontWeight: 500, lineHeight: 1, letterSpacing: 0.2 }}>{label}</span>
+            <span style={{ fontSize: 8, color: 'var(--osmos-fg-subtle)', fontWeight: 500, lineHeight: 1, letterSpacing: 0.2 }}>{label}</span>
           </button>
         ))}
 
@@ -357,7 +357,7 @@ function HomeTopBar() {
         <button style={{
           height: 36, padding: '0 12px', display: 'flex', alignItems: 'center', gap: 6,
           background: WHITE, border: `1px solid ${BORDER}`, borderRadius: 8,
-          cursor: 'pointer', fontSize: 12, color: '#333', fontFamily: "'Open Sans', sans-serif",
+          cursor: 'pointer', fontSize: 12, color: 'var(--osmos-fg)', fontFamily: "'Open Sans', sans-serif",
         }}>
           <Icon size={13} color="#E53E3E">
             <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>

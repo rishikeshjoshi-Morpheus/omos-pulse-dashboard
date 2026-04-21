@@ -72,12 +72,12 @@ export default function GeoTable() {
   const [tab, setTab] = useState('country');
 
   return (
-    <div style={{ background: '#fff', borderRadius: 8, border: '1px solid #F0F0F0', overflow: 'hidden', marginBottom: 20 }}>
+    <div style={{ background: '#fff', borderRadius: 8, border: '1px solid var(--osmos-border)', overflow: 'hidden', marginBottom: 20 }}>
       {/* Header */}
       <div style={{
         padding: '16px 20px',
         display: 'flex', alignItems: 'center', justifyContent: 'space-between',
-        borderBottom: '1px solid #F5F5F5',
+        borderBottom: '1px solid var(--osmos-border)',
       }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
           <div style={{
@@ -90,14 +90,14 @@ export default function GeoTable() {
               <circle cx="12" cy="10" r="3"/>
             </svg>
           </div>
-          <span style={{ fontSize: 14, fontWeight: 600, color: '#1A1A2E' }}>Geo Performance</span>
+          <span style={{ fontSize: 14, fontWeight: 600, color: 'var(--osmos-fg)' }}>Geo Performance</span>
           <InfoIcon />
         </div>
         <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
           <button style={{
             height: 32, padding: '0 10px', display: 'flex', alignItems: 'center', gap: 5,
             background: '#fff', border: '1px solid #E0E0E0', borderRadius: 6,
-            cursor: 'pointer', fontSize: 11, color: '#555', fontFamily: 'inherit',
+            cursor: 'pointer', fontSize: 11, color: 'var(--osmos-fg-muted)', fontFamily: 'inherit',
           }}>
             <svg width="13" height="13" viewBox="0 0 24 24" fill="none"
               stroke="#666" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -114,7 +114,7 @@ export default function GeoTable() {
           }}>
             <SearchIcon />
             <input placeholder="Search" style={{
-              border: 'none', outline: 'none', fontSize: 11, color: '#333',
+              border: 'none', outline: 'none', fontSize: 11, color: 'var(--osmos-fg)',
               fontFamily: 'inherit', width: 100, background: 'transparent',
             }} />
           </div>
@@ -125,7 +125,7 @@ export default function GeoTable() {
       </div>
 
       {/* Country / City tabs */}
-      <div style={{ padding: '12px 20px 0', borderBottom: '1px solid #F5F5F5', display: 'flex', gap: 0 }}>
+      <div style={{ padding: '12px 20px 0', borderBottom: '1px solid var(--osmos-border)', display: 'flex', gap: 0 }}>
         <div style={{
           display: 'inline-flex',
           background: '#EAF1F4', borderRadius: 8, padding: 3, marginBottom: 12,
@@ -135,7 +135,7 @@ export default function GeoTable() {
               padding: '5px 16px', borderRadius: 6, border: 'none', cursor: 'pointer',
               fontSize: 12, fontFamily: 'inherit', fontWeight: tab === t ? 600 : 400,
               background: tab === t ? '#fff' : 'transparent',
-              color: tab === t ? '#1A1A2E' : '#888',
+              color: tab === t ? '#1A1A2E' : 'var(--osmos-fg-muted)',
               boxShadow: tab === t ? '0 1px 4px rgba(0,0,0,0.10)' : 'none',
               transition: 'all 0.15s',
             }}>
@@ -146,14 +146,14 @@ export default function GeoTable() {
       </div>
 
       {/* Add filter row */}
-      <div style={{ padding: '10px 20px', borderBottom: '1px solid #F5F5F5' }}>
+      <div style={{ padding: '10px 20px', borderBottom: '1px solid var(--osmos-border)' }}>
         <button style={{
           display: 'flex', alignItems: 'center', gap: 5,
           background: 'none', border: 'none', cursor: 'pointer',
-          fontSize: 11, color: '#5B6EF5', fontFamily: 'inherit', padding: 0,
+          fontSize: 11, color: 'var(--osmos-brand-primary)', fontFamily: 'inherit', padding: 0,
         }}>
           <svg width="13" height="13" viewBox="0 0 24 24" fill="none"
-            stroke="#5B6EF5" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+            stroke="var(--osmos-brand-primary)" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
             <line x1="12" y1="5" x2="12" y2="19"/>
             <line x1="5" y1="12" x2="19" y2="12"/>
           </svg>
@@ -168,10 +168,10 @@ export default function GeoTable() {
       <div style={{
         padding: '8px 16px', background: '#F6FBFF',
         display: 'flex', justifyContent: 'space-between', alignItems: 'center',
-        fontSize: 10, color: '#999',
+        fontSize: 10, color: 'var(--osmos-fg-subtle)',
       }}>
         <span>Comparison mode not applicable</span>
-        <span>One Filter Applicable: <span style={{ color: '#5B6EF5', fontWeight: 500 }}>Date</span></span>
+        <span>One Filter Applicable: <span style={{ color: 'var(--osmos-brand-primary)', fontWeight: 500 }}>Date</span></span>
       </div>
     </div>
   );
