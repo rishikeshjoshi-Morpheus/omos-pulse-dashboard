@@ -67,15 +67,26 @@ const NAV_SECTIONS = [
       </>
     ),
     subnav: [
-      { id: 'advertisers', label: 'Advertisers', group: 'Advertiser Management' },
-      { id: 'persona-config', label: 'Persona Configuration', group: 'Advertiser Management' },
-      { id: 'product-catalog', label: 'Product Catalog Management', group: 'Product Catalog Management' },
-      { id: 'manage-segments', label: 'Manage Segments', group: 'Audience Manager' },
-      { id: 'manage-attributes', label: 'Manage Attributes', group: 'Audience Manager' },
-      { id: 'super-admin', label: 'Super Admin Users', group: 'User Access Management' },
-      { id: 'ops-user', label: 'Ops User', group: 'User Access Management' },
-      { id: 'setup-details', label: 'Setup Details', group: 'Developer Settings' },
-      { id: 'event-debug', label: 'Event Debugging', group: 'Developer Settings' },
+      { id: 'seller-onboarding',          label: 'Seller Advertiser Onboarding',        group: 'Onboarding' },
+      { id: 'brand-onboarding',           label: 'Brand Advertiser Onboarding',          group: 'Onboarding' },
+      { id: 'super-admin',                label: 'Super Admin Users',                    group: 'User Access Management' },
+      { id: 'ops-users',                  label: 'Ops Users',                            group: 'User Access Management' },
+      { id: 'advertiser-users',           label: 'Advertiser Users',                     group: 'User Access Management' },
+      { id: 'account-manager-mapping',    label: 'Advertiser Account Manager Mapping',   group: 'User Access Management' },
+      { id: 'admin-user-role',            label: 'Admin User',                           group: 'User Role Management' },
+      { id: 'advertiser-user-role',       label: 'Advertiser User',                      group: 'User Role Management' },
+      { id: 'persona-config',             label: 'Persona Configuration',                group: 'Advertiser Persona Management' },
+      { id: 'persona-allocation',         label: 'Advertiser Persona Allocation',        group: 'Advertiser Persona Management' },
+      { id: 'manage-segments',            label: 'Segment Manager',                      group: 'Advertiser Settings' },
+      { id: 'attribution-overrides',      label: 'Attribution Overrides',                group: 'Advertiser Settings' },
+      { id: 'automated-rules',            label: 'Automated Rules',                      group: 'Advertiser Settings' },
+      { id: 'wallet-rules',               label: 'Wallet Rules',                         group: 'Advertiser Settings' },
+      { id: 'debug-console',              label: 'Debug Console',                        group: 'Advertiser Settings' },
+      { id: 'product-catalog',            label: 'Product Catalog',                      group: 'Product Catalog' },
+      { id: 'event-logs',                 label: 'Event Logs',                           group: 'Activity Log' },
+      { id: 'product-ads-request-logs',   label: 'Product Ads Request Logs',             group: 'Activity Log' },
+      { id: 'display-ads-request-logs',   label: 'Display Ads Request Logs',             group: 'Activity Log' },
+      { id: 'activity-log',               label: 'Activity Log',                         group: 'Activity Log' },
     ],
   },
   {
@@ -218,12 +229,10 @@ function IconRail({ activeSection, onSelect, expanded }) {
 }
 
 /* ── Expanded sub-nav panel ───────────────────────────────────── */
-function SubNavPanel({ section, onClose, onPageChange }) {
-  const [activeItem, setActiveItem] = useState(
-    section?.subnav.find(i => i.active)?.id ?? section?.subnav[0]?.id
-  );
-
+function SubNavPanel({ section, activePage, onClose, onPageChange }) {
   if (!section) return null;
+
+  const activeItem = activePage ?? section?.subnav.find(i => i.active)?.id ?? section?.subnav[0]?.id;
 
   // Group sub-items
   const groups = [];
@@ -266,9 +275,6 @@ function SubNavPanel({ section, onClose, onPageChange }) {
             </Icon>
           </button>
         </div>
-        <div style={{ fontSize: 10, color: 'rgba(255,255,255,0.35)', marginTop: 2 }}>
-          Click here to close
-        </div>
       </div>
 
       {/* Sub-nav items */}
@@ -285,14 +291,14 @@ function SubNavPanel({ section, onClose, onPageChange }) {
               </div>
               {group.items.map(item => (
                 <SubNavItem key={item.id} item={item} active={activeItem === item.id}
-                  onClick={() => { setActiveItem(item.id); onPageChange?.(item.id); onClose(); }} />
+                  onClick={() => { onPageChange?.(item.id); }} />
               ))}
             </div>
           ))
         ) : (
           ungrouped.map(item => (
             <SubNavItem key={item.id} item={item} active={activeItem === item.id}
-              onClick={() => { setActiveItem(item.id); onPageChange?.(item.id); onClose(); }} />
+              onClick={() => { onPageChange?.(item.id); }} />
           ))
         )}
       </div>
@@ -326,7 +332,6 @@ function SubNavItem({ item, active, onClick }) {
 }
 
 /* ── Root LeftNav ─────────────────────────────────────────────── */
-// Helper: given a page id (could be a section id OR a sub-nav id), find the owning section id
 function findSectionId(pageId) {
   if (!pageId) return 'analytics';
   const direct = NAV_SECTIONS.find(s => s.id === pageId);
@@ -346,23 +351,23 @@ export default function LeftNav({ activePage, onPageChange }) {
     const s = NAV_SECTIONS.find(n => n.id === id);
     const hasSub = s?.subnav?.length > 0;
 
-    if (activeSection === id) {
-      // Same section — toggle the panel
-      if (expanded) setExpanded(false);
+    if (activeSection === id && hasSub) {
+      // Same section — toggle panel open/closed
+      setExpanded(prev => !prev);
     } else {
       setActiveSection(id);
       setExpanded(hasSub);
-      // Only route immediately for leaf sections (no sub-nav, e.g. Home)
       if (!hasSub) onPageChange?.(id);
     }
   }
 
   return (
-    <div style={{ display: 'flex', height: '100vh', position: 'sticky', top: 0, flexShrink: 0 }}>
+    <div style={{ display: 'flex', height: '100vh', flexShrink: 0 }}>
       <IconRail activeSection={activeSection} onSelect={handleSelect} expanded={expanded} />
       {expanded && hasSubnav && (
         <SubNavPanel
           section={section}
+          activePage={activePage}
           onClose={() => setExpanded(false)}
           onPageChange={onPageChange}
         />

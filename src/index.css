@@ -13,6 +13,16 @@
   /* Brand amber (secondary chart line, PRO badge) */
   --osmos-brand-amber:         #F5A623;
 
+  /* Semantic aliases → resolves the actual library token names at runtime */
+  --osmos-border:              var(--osmos-colors-border-DEFAULT);
+  --osmos-border-muted:        var(--osmos-colors-border-muted);
+  --osmos-bg:                  var(--osmos-colors-bg-DEFAULT);
+  --osmos-bg-muted:            var(--osmos-colors-bg-muted);
+  --osmos-bg-subtle:           var(--osmos-colors-bg-subtle);
+  --osmos-fg:                  var(--osmos-colors-fg-DEFAULT);
+  --osmos-fg-muted:            var(--osmos-colors-fg-muted);
+  --osmos-fg-subtle:           var(--osmos-colors-fg-subtle);
+
   /* Left-nav chrome */
   --osmos-nav-bg:              #1e2266;
   --osmos-nav-panel-bg:        #212563;

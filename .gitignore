@@ -15,3 +15,11 @@ dist/
 # Editor
 .DS_Store
 *.local
+
+# Python
+.venv/
+__pycache__/
+*.pyc
+
+# Graphify
+graphify-out/

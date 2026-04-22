@@ -266,3 +266,12 @@ Full mapping: `mcp/osmos-ui-mcp/data/figma-code-map.json`
 - **Theme system:** `components/src/theme/THEME.md`
 - **Figma ↔ Code audit:** `docs/FIGMA-STORYBOOK-AUDIT.md`
 - **Figma file:** https://www.figma.com/design/58jL2Gbe53rBhxOysvHM82/Design-System-OS
+
+## graphify
+
+This project has a graphify knowledge graph at graphify-out/.
+
+Rules:
+- Before answering architecture or codebase questions, read graphify-out/GRAPH_REPORT.md for god nodes and community structure
+- If graphify-out/wiki/index.md exists, navigate it instead of reading raw files
+- After modifying code files in this session, run `graphify update .` to keep the graph current (AST-only, no API cost)

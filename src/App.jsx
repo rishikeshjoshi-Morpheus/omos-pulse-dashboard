@@ -12,6 +12,11 @@ import AdvertisersPage from './components/AdvertisersPage';
 import LiveAnalyticsPage from './components/LiveAnalyticsPage';
 import DemandSupplyPage from './components/DemandSupplyPage';
 import AdvertiserInsightsPage from './components/AdvertiserInsightsPage';
+import SegmentManagerPage from './components/SegmentManagerPage';
+import ScheduledReportsPage from './components/ScheduledReportsPage';
+import HealthReportPage from './components/HealthReportPage';
+import SellerAdvertiserOnboardingPage from './components/SellerAdvertiserOnboardingPage';
+import BrandAdvertiserOnboardingPage from './components/BrandAdvertiserOnboardingPage';
 
 /* ── Analytics dashboard (the original page) ─────────────────── */
 function AnalyticsDashboard({ bare = false }) {
@@ -47,50 +52,88 @@ export default function App() {
         return <HomePage />;
       case 'control-center':
         return <AdvertisersPage />;
+      case 'manage-segments':
+        return (
+          <>
+            <TopBar section="Control Center" page="Segment Manager" onNavigate={setActivePage} />
+            <main style={{ flex: 1, overflowY: 'auto', background: 'var(--osmos-bg-subtle)' }}>
+              <SegmentManagerPage />
+            </main>
+          </>
+        );
       case 'advertiser-insights':
         return (
-          <div style={{ flex: 1, display: 'flex', flexDirection: 'column', minWidth: 0 }}>
-            <TopBar section="Analytics" page="Advertiser Insights" />
+          <>
+            <TopBar section="Analytics" page="Advertiser Insights" onNavigate={setActivePage} />
             <main style={{ flex: 1, overflowY: 'auto', background: 'var(--osmos-bg-subtle)' }}>
               <AdvertiserInsightsPage />
             </main>
-          </div>
+          </>
         );
       case 'live-insights':
         return (
-          <div style={{ flex: 1, display: 'flex', flexDirection: 'column', minWidth: 0 }}>
-            <TopBar section="Analytics" page="Live Insights" />
+          <>
+            <TopBar section="Analytics" page="Live Insights" onNavigate={setActivePage} />
             <main style={{ flex: 1, overflowY: 'auto', background: 'var(--osmos-bg-subtle)' }}>
               <LiveAnalyticsPage />
             </main>
-          </div>
+          </>
         );
       case 'demand-supply':
         return (
-          <div style={{ flex: 1, display: 'flex', flexDirection: 'column', minWidth: 0 }}>
-            <TopBar section="Analytics" page="Demand & Supply" />
+          <>
+            <TopBar section="Analytics" page="Demand & Supply" onNavigate={setActivePage} />
             <main style={{ flex: 1, overflowY: 'auto', background: 'var(--osmos-bg-subtle)' }}>
               <DemandSupplyPage />
             </main>
-          </div>
+          </>
         );
       case 'scheduled-reports':
         return (
-          <div style={{ flex: 1, display: 'flex', flexDirection: 'column', minWidth: 0 }}>
-            <TopBar section="Analytics" page="Scheduled Reports" />
+          <>
+            <TopBar section="Analytics" page="Scheduled Reports" onNavigate={setActivePage} />
             <main style={{ flex: 1, overflowY: 'auto', background: 'var(--osmos-bg-subtle)' }}>
-              <AnalyticsDashboard bare />
+              <ScheduledReportsPage />
             </main>
-          </div>
+          </>
         );
       case 'bu-analytics':
         return (
-          <div style={{ flex: 1, display: 'flex', flexDirection: 'column', minWidth: 0 }}>
+          <>
             <TopBar section="Analytics" page="BU Analytics" />
             <main style={{ flex: 1, overflowY: 'auto', background: 'var(--osmos-bg-subtle)' }}>
               <AnalyticsDashboard bare />
             </main>
-          </div>
+          </>
+        );
+      case 'brand-onboarding':
+        return (
+          <>
+            <TopBar section="Control Center" page="Brand Advertiser Onboarding" onNavigate={setActivePage} />
+            <main style={{ flex: 1, overflowY: 'auto', background: 'var(--osmos-bg-subtle)' }}>
+              <BrandAdvertiserOnboardingPage />
+            </main>
+          </>
+        );
+      case 'seller-onboarding':
+        return (
+          <>
+            <TopBar section="Control Center" page="Seller Advertiser Onboarding" onNavigate={setActivePage} />
+            <main style={{ flex: 1, overflowY: 'auto', background: 'var(--osmos-bg-subtle)' }}>
+              <SellerAdvertiserOnboardingPage />
+            </main>
+          </>
+        );
+      case 'overview':
+      case 'budget-health':
+      case 'delivery-health':
+        return (
+          <>
+            <TopBar section="Health" page="Health Report" onNavigate={setActivePage} />
+            <main style={{ flex: 1, overflowY: 'auto', background: 'var(--osmos-bg-subtle)' }}>
+              <HealthReportPage />
+            </main>
+          </>
         );
       default:
         return <AnalyticsDashboard />;
@@ -98,9 +141,11 @@ export default function App() {
   }
 
   return (
-    <div style={{ display: 'flex', minHeight: '100vh', background: 'var(--osmos-bg-subtle)' }}>
+    <div style={{ display: 'flex', height: '100vh', overflow: 'hidden', background: 'var(--osmos-bg-subtle)' }}>
       <LeftNav activePage={activePage} onPageChange={setActivePage} />
-      {renderPage()}
+      <div style={{ flex: 1, display: 'flex', flexDirection: 'column', minWidth: 0, overflow: 'hidden' }}>
+        {renderPage()}
+      </div>
     </div>
   );
 }

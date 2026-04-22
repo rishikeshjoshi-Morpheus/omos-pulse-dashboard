@@ -76,27 +76,27 @@ const FUNNEL = [
 function FunnelCard({ stat, i, last }) {
   const pos = stat.pct >= 0;
   return (
-    <div style={{ background:WHITE, flex:1, minWidth:0, padding:'16px 18px',
+    <div style={{ background:WHITE, flex:1, minWidth:0, padding:'10px 14px',
       borderTop:`1px solid ${BORDER}`, borderBottom:`1px solid ${BORDER}`,
       borderRight: last ? `1px solid ${BORDER}` : 'none',
       borderLeft:`1px solid ${BORDER}`,
       borderRadius: i===0 ? '8px 0 0 8px' : last ? '0 8px 8px 0' : 0,
-      position:'relative', display:'flex', flexDirection:'column', gap:8 }}>
+      position:'relative', display:'flex', flexDirection:'column', gap:4 }}>
       {!last && (
         <div style={{ position:'absolute', right:-10, top:'50%', transform:'translateY(-50%)',
-          width:0, height:0, borderTop:'7px solid transparent',
-          borderBottom:'7px solid transparent', borderLeft:`9px solid ${BORDER}`, zIndex:2 }}/>
+          width:0, height:0, borderTop:'6px solid transparent',
+          borderBottom:'6px solid transparent', borderLeft:`8px solid ${BORDER}`, zIndex:2 }}/>
       )}
       <div style={{ display:'flex', alignItems:'center', justifyContent:'space-between' }}>
         <span style={{ fontSize:11, color:TEXT_MID, fontWeight:500 }}>{stat.label}</span>
         <InfoIcon />
       </div>
-      <div style={{ fontSize:22, fontWeight:700, color:TEXT_HI, letterSpacing:'-0.5px' }}>
+      <div style={{ fontSize:16, fontWeight:700, color:TEXT_HI, letterSpacing:'-0.3px', whiteSpace:'nowrap' }}>
         {stat.value}
       </div>
-      <div style={{ display:'flex', alignItems:'center', gap:6 }}>
-        <span style={{ fontSize:11, color:TEXT_MID }}>{stat.comp}</span>
-        <span style={{ fontSize:11, fontWeight:600, padding:'1px 5px', borderRadius:4,
+      <div style={{ display:'flex', alignItems:'center', gap:5 }}>
+        <span style={{ fontSize:10, color:TEXT_MID }}>{stat.comp}</span>
+        <span style={{ fontSize:10, fontWeight:600, padding:'1px 4px', borderRadius:3,
           background: pos ? '#ECFDF5' : '#FEF2F2', color: pos ? GREEN : RED }}>
           {pos ? '▲' : '▼'} {Math.abs(stat.pct)}%
         </span>
