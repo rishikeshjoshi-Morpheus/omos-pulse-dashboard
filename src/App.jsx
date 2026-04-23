@@ -19,6 +19,8 @@ import HealthReportPage from './components/HealthReportPage';
 import SellerAdvertiserOnboardingPage from './components/SellerAdvertiserOnboardingPage';
 import BrandAdvertiserOnboardingPage from './components/BrandAdvertiserOnboardingPage';
 import SuperAdminUsersPage from './components/SuperAdminUsersPage';
+import AdminUserPage from './components/AdminUserPage';
+import AdvertiserUserRolePage from './components/AdvertiserUserRolePage';
 import OpsUsersPage from './components/OpsUsersPage';
 import AdvertiserUsersPage from './components/AdvertiserUsersPage';
 import ActivityLogPage from './components/ActivityLogPage';
@@ -34,6 +36,8 @@ import DeveloperSettingsPage from './components/DeveloperSettingsPage';
 import ManageAttributeTargetingPage from './components/ManageAttributeTargetingPage';
 import AccountManagerMappingPage from './components/AccountManagerMappingPage';
 import AttributionOverridesPage from './components/AttributionOverridesPage';
+import AutomatedRulesPage from './components/AutomatedRulesPage';
+import ProductCatalogPage from './components/ProductCatalogPage';
 
 /* ── Analytics dashboard (the original page) ─────────────────── */
 function AnalyticsDashboard({ bare = false }) {
@@ -296,6 +300,42 @@ export default function App() {
             <TopBar section="Control Center" page="Attribution Overrides" onNavigate={setActivePage} />
             <main style={{ flex: 1, overflowY: 'auto', background: 'var(--osmos-bg-subtle)' }}>
               <AttributionOverridesPage />
+            </main>
+          </>
+        );
+      case 'admin-user-role':
+        return (
+          <>
+            <TopBar section="Control Center" page="Admin User" onNavigate={setActivePage} />
+            <main style={{ flex: 1, overflowY: 'auto', background: 'var(--osmos-bg-subtle)' }}>
+              <AdminUserPage />
+            </main>
+          </>
+        );
+      case 'advertiser-user-role':
+        return (
+          <>
+            <TopBar section="Control Center" page="Advertiser User" onNavigate={setActivePage} />
+            <main style={{ flex: 1, overflowY: 'auto', background: 'var(--osmos-bg-subtle)' }}>
+              <AdvertiserUserRolePage />
+            </main>
+          </>
+        );
+      case 'automated-rules':
+        return (
+          <>
+            <TopBar section="Control Center" page="Automated Rules" onNavigate={setActivePage} />
+            <main style={{ flex: 1, overflowY: 'auto', background: 'var(--osmos-bg-subtle)' }}>
+              <AutomatedRulesPage />
+            </main>
+          </>
+        );
+      case 'product-catalog':
+        return (
+          <>
+            <TopBar section="Control Center" page="Product Catalog" onNavigate={setActivePage} />
+            <main style={{ flex: 1, overflowY: 'auto', background: 'var(--osmos-bg-subtle)' }}>
+              <ProductCatalogPage />
             </main>
           </>
         );

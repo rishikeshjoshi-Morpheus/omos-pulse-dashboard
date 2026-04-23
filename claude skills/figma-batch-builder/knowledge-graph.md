@@ -1,7 +1,7 @@
 # Figma Batch Builder — Knowledge Graph
 
 > Auto-updated every hour by a cron job that re-reads App.jsx, LeftNav.jsx, and src/components/.
-> Last updated: 2026-04-23
+> Last updated: 2026-04-23 (auto-updated)
 
 ---
 
@@ -44,6 +44,10 @@ Every page that is currently routed in App.jsx + present in LeftNav.jsx.
 | budget-health | HealthReportPage.jsx | Health | — | dashboard |
 | delivery-health | HealthReportPage.jsx | Health | — | dashboard |
 | manage-cpm-rules | ManageCPMRulesPage.jsx | Control Center | Audience Manager | data-management-list |
+| admin-user-role | AdminUserPage.jsx | Control Center | User Role Management | user-table |
+| advertiser-user-role | AdvertiserUserRolePage.jsx | Control Center | User Role Management | user-table |
+| automated-rules | AutomatedRulesPage.jsx | Control Center | Advertiser Settings | data-management-list |
+| product-catalog | ProductCatalogPage.jsx | Control Center | Product Catalog | data-management-list |
 
 ---
 
@@ -54,11 +58,11 @@ All known nav IDs from LeftNav.jsx (NAV_SECTIONS). Use this to detect duplicates
 ```
 home, control-center, advertiser-insights, live-insights, demand-supply, scheduled-reports,
 bu-analytics, brand-onboarding, seller-onboarding, super-admin, ops-users, advertiser-users,
-account-manager-mapping, persona-config, persona-allocation, wallet-rules, attribution-overrides,
-automated-rules, debug-console, product-catalog, manage-attributes, manage-cpm-rules,
-manage-segments, attribute-targeting, event-logs, product-ads-request-logs,
-display-ads-request-logs, activity-log, finance-dashboard, wallet-topup, finance-advertisers,
-overview, budget-health, delivery-health
+account-manager-mapping, admin-user-role, advertiser-user-role, persona-config, persona-allocation,
+wallet-rules, attribution-overrides, automated-rules, debug-console, product-catalog,
+manage-attributes, manage-cpm-rules, manage-segments, attribute-targeting, event-logs,
+product-ads-request-logs, display-ads-request-logs, activity-log, finance-dashboard,
+wallet-topup, finance-advertisers, overview, budget-health, delivery-health
 ```
 
 ---
@@ -68,6 +72,7 @@ overview, budget-health, delivery-health
 ```
 control-center
   ├── User Access Management:  super-admin, ops-users, advertiser-users, account-manager-mapping
+  ├── User Role Management:  admin-user-role, advertiser-user-role
   ├── Advertiser Persona Management:  persona-config, persona-allocation
   ├── Audience Manager:  manage-attributes, manage-cpm-rules, manage-segments, attribute-targeting
   ├── Advertiser Settings:  attribution-overrides, automated-rules, wallet-rules, debug-console
@@ -218,15 +223,16 @@ These were identified as failure modes in this session and must be enforced:
 
 All files currently in `src/components/` that are page-level components:
 
-AccountManagerMappingPage.jsx, ActivityLogPage.jsx, AdvertiserInsightsPage.jsx,
-AdvertiserUsersPage.jsx, AdvertisersPage.jsx, AttributionOverridesPage.jsx,
-BrandAdvertiserOnboardingPage.jsx, Charts.jsx, CampaignsTable.jsx,
+AccountManagerMappingPage.jsx, ActivityLogPage.jsx, AdminUserPage.jsx,
+AdvertiserInsightsPage.jsx, AdvertiserUserRolePage.jsx, AdvertiserUsersPage.jsx,
+AdvertisersPage.jsx, AttributionOverridesPage.jsx, AutomatedRulesPage.jsx,
+BrandAdvertiserOnboardingPage.jsx, Charts.jsx, CampaignsTable.jsx, DataTable.jsx,
 DemandSupplyPage.jsx, DeveloperSettingsPage.jsx, DeviceTable.jsx,
 FinanceAdvertiserManagementPage.jsx, FinanceDashboardPage.jsx,
 GeoTable.jsx, HealthReportPage.jsx, HomePage.jsx,
 LeftNav.jsx, LiveAnalyticsPage.jsx, ManageAttributeTargetingPage.jsx,
 ManageAttributesPage.jsx, ManageCPMRulesPage.jsx, ManageSegmentsPage.jsx,
 OpsUsersPage.jsx, PersonaAllocationPage.jsx, PersonaConfigPage.jsx,
-ReferrerTable.jsx, ScheduledReportsPage.jsx, SegmentManagerPage.jsx,
+ProductCatalogPage.jsx, ReferrerTable.jsx, ScheduledReportsPage.jsx, SegmentManagerPage.jsx,
 SellerAdvertiserOnboardingPage.jsx, StatCards.jsx, SuperAdminUsersPage.jsx,
 TopBar.jsx, WalletRulesPage.jsx, WalletTopUpPage.jsx
