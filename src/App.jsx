@@ -13,6 +13,7 @@ import LiveAnalyticsPage from './components/LiveAnalyticsPage';
 import DemandSupplyPage from './components/DemandSupplyPage';
 import AdvertiserInsightsPage from './components/AdvertiserInsightsPage';
 import SegmentManagerPage from './components/SegmentManagerPage';
+import ManageSegmentsPage from './components/ManageSegmentsPage';
 import ScheduledReportsPage from './components/ScheduledReportsPage';
 import HealthReportPage from './components/HealthReportPage';
 import SellerAdvertiserOnboardingPage from './components/SellerAdvertiserOnboardingPage';
@@ -27,6 +28,12 @@ import WalletRulesPage from './components/WalletRulesPage';
 import FinanceDashboardPage from './components/FinanceDashboardPage';
 import WalletTopUpPage from './components/WalletTopUpPage';
 import FinanceAdvertiserManagementPage from './components/FinanceAdvertiserManagementPage';
+import ManageAttributesPage from './components/ManageAttributesPage';
+import ManageCPMRulesPage from './components/ManageCPMRulesPage';
+import DeveloperSettingsPage from './components/DeveloperSettingsPage';
+import ManageAttributeTargetingPage from './components/ManageAttributeTargetingPage';
+import AccountManagerMappingPage from './components/AccountManagerMappingPage';
+import AttributionOverridesPage from './components/AttributionOverridesPage';
 
 /* ── Analytics dashboard (the original page) ─────────────────── */
 function AnalyticsDashboard({ bare = false }) {
@@ -65,9 +72,9 @@ export default function App() {
       case 'manage-segments':
         return (
           <>
-            <TopBar section="Control Center" page="Segment Manager" onNavigate={setActivePage} />
+            <TopBar section="Control Center" page="Manage Segment" onNavigate={setActivePage} />
             <main style={{ flex: 1, overflowY: 'auto', background: 'var(--osmos-bg-subtle)' }}>
-              <SegmentManagerPage />
+              <ManageSegmentsPage />
             </main>
           </>
         );
@@ -235,6 +242,60 @@ export default function App() {
             <TopBar section="Health" page="Health Report" onNavigate={setActivePage} />
             <main style={{ flex: 1, overflowY: 'auto', background: 'var(--osmos-bg-subtle)' }}>
               <HealthReportPage />
+            </main>
+          </>
+        );
+      case 'manage-attributes':
+        return (
+          <>
+            <TopBar section="Control Center" page="Manage Attributes" onNavigate={setActivePage} />
+            <main style={{ flex: 1, overflowY: 'auto', background: 'var(--osmos-bg-subtle)' }}>
+              <ManageAttributesPage />
+            </main>
+          </>
+        );
+      case 'manage-cpm-rules':
+        return (
+          <>
+            <TopBar section="Control Center" page="Manage CPM Rules" onNavigate={setActivePage} />
+            <main style={{ flex: 1, overflowY: 'auto', background: 'var(--osmos-bg-subtle)' }}>
+              <ManageCPMRulesPage />
+            </main>
+          </>
+        );
+      case 'debug-console':
+        return (
+          <>
+            <TopBar section="Control Center" page="Event Debugging" onNavigate={setActivePage} />
+            <main style={{ flex: 1, overflowY: 'auto', background: 'var(--osmos-bg-subtle)' }}>
+              <DeveloperSettingsPage />
+            </main>
+          </>
+        );
+      case 'attribute-targeting':
+        return (
+          <>
+            <TopBar section="Control Center" page="Manage Activity Targeting" onNavigate={setActivePage} />
+            <main style={{ flex: 1, overflowY: 'auto', background: 'var(--osmos-bg-subtle)' }}>
+              <ManageAttributeTargetingPage />
+            </main>
+          </>
+        );
+      case 'account-manager-mapping':
+        return (
+          <>
+            <TopBar section="Control Center" page="Advertiser Account Manager Mapping" onNavigate={setActivePage} />
+            <main style={{ flex: 1, overflowY: 'auto', background: 'var(--osmos-bg-subtle)' }}>
+              <AccountManagerMappingPage />
+            </main>
+          </>
+        );
+      case 'attribution-overrides':
+        return (
+          <>
+            <TopBar section="Control Center" page="Attribution Overrides" onNavigate={setActivePage} />
+            <main style={{ flex: 1, overflowY: 'auto', background: 'var(--osmos-bg-subtle)' }}>
+              <AttributionOverridesPage />
             </main>
           </>
         );
