@@ -52,9 +52,9 @@ const NAV_SECTIONS = [
       </>
     ),
     subnav: [
-      { id: 'invoices', label: 'Invoices' },
-      { id: 'wallet', label: 'Wallet' },
-      { id: 'billing', label: 'Billing' },
+      { id: 'finance-dashboard',    label: 'Finance Dashboard' },
+      { id: 'wallet-topup',         label: 'Wallet Top Up' },
+      { id: 'finance-advertisers',  label: 'Advertiser Management' },
     ],
   },
   {

@@ -17,6 +17,16 @@ import ScheduledReportsPage from './components/ScheduledReportsPage';
 import HealthReportPage from './components/HealthReportPage';
 import SellerAdvertiserOnboardingPage from './components/SellerAdvertiserOnboardingPage';
 import BrandAdvertiserOnboardingPage from './components/BrandAdvertiserOnboardingPage';
+import SuperAdminUsersPage from './components/SuperAdminUsersPage';
+import OpsUsersPage from './components/OpsUsersPage';
+import AdvertiserUsersPage from './components/AdvertiserUsersPage';
+import ActivityLogPage from './components/ActivityLogPage';
+import PersonaConfigPage from './components/PersonaConfigPage';
+import PersonaAllocationPage from './components/PersonaAllocationPage';
+import WalletRulesPage from './components/WalletRulesPage';
+import FinanceDashboardPage from './components/FinanceDashboardPage';
+import WalletTopUpPage from './components/WalletTopUpPage';
+import FinanceAdvertiserManagementPage from './components/FinanceAdvertiserManagementPage';
 
 /* ── Analytics dashboard (the original page) ─────────────────── */
 function AnalyticsDashboard({ bare = false }) {
@@ -121,6 +131,99 @@ export default function App() {
             <TopBar section="Control Center" page="Seller Advertiser Onboarding" onNavigate={setActivePage} />
             <main style={{ flex: 1, overflowY: 'auto', background: 'var(--osmos-bg-subtle)' }}>
               <SellerAdvertiserOnboardingPage />
+            </main>
+          </>
+        );
+      case 'super-admin':
+        return (
+          <>
+            <TopBar section="Control Center" page="Super Admin Users" onNavigate={setActivePage} />
+            <main style={{ flex: 1, overflowY: 'auto', background: 'var(--osmos-bg-subtle)' }}>
+              <SuperAdminUsersPage />
+            </main>
+          </>
+        );
+      case 'ops-users':
+        return (
+          <>
+            <TopBar section="Control Center" page="Ops Users" onNavigate={setActivePage} />
+            <main style={{ flex: 1, overflowY: 'auto', background: 'var(--osmos-bg-subtle)' }}>
+              <OpsUsersPage />
+            </main>
+          </>
+        );
+      case 'advertiser-users':
+        return (
+          <>
+            <TopBar section="Control Center" page="Advertiser Users" onNavigate={setActivePage} />
+            <main style={{ flex: 1, overflowY: 'auto', background: 'var(--osmos-bg-subtle)' }}>
+              <AdvertiserUsersPage />
+            </main>
+          </>
+        );
+      case 'activity-log':
+      case 'event-logs':
+      case 'product-ads-request-logs':
+      case 'display-ads-request-logs':
+        return (
+          <>
+            <TopBar section="Control Center" page="Activity Log" onNavigate={setActivePage} />
+            <main style={{ flex: 1, overflowY: 'auto', background: 'var(--osmos-bg-subtle)' }}>
+              <ActivityLogPage />
+            </main>
+          </>
+        );
+      case 'persona-config':
+        return (
+          <>
+            <TopBar section="Control Center" page="Persona Configuration" onNavigate={setActivePage} />
+            <main style={{ flex: 1, overflowY: 'auto', background: 'var(--osmos-bg-subtle)' }}>
+              <PersonaConfigPage />
+            </main>
+          </>
+        );
+      case 'persona-allocation':
+        return (
+          <>
+            <TopBar section="Control Center" page="Advertiser Persona Allocation" onNavigate={setActivePage} />
+            <main style={{ flex: 1, overflowY: 'auto', background: 'var(--osmos-bg-subtle)' }}>
+              <PersonaAllocationPage />
+            </main>
+          </>
+        );
+      case 'wallet-rules':
+        return (
+          <>
+            <TopBar section="Control Center" page="Wallet Rules" onNavigate={setActivePage} />
+            <main style={{ flex: 1, overflowY: 'auto', background: 'var(--osmos-bg-subtle)' }}>
+              <WalletRulesPage />
+            </main>
+          </>
+        );
+      case 'finance-dashboard':
+        return (
+          <>
+            <TopBar section="Finance" page="Finance Dashboard" onNavigate={setActivePage} />
+            <main style={{ flex: 1, overflowY: 'auto', background: 'var(--osmos-bg-subtle)' }}>
+              <FinanceDashboardPage />
+            </main>
+          </>
+        );
+      case 'wallet-topup':
+        return (
+          <>
+            <TopBar section="Finance" page="Wallet Top Up" onNavigate={setActivePage} />
+            <main style={{ flex: 1, overflowY: 'auto', background: 'var(--osmos-bg-subtle)' }}>
+              <WalletTopUpPage />
+            </main>
+          </>
+        );
+      case 'finance-advertisers':
+        return (
+          <>
+            <TopBar section="Finance" page="Advertiser Management" onNavigate={setActivePage} />
+            <main style={{ flex: 1, overflowY: 'auto', background: 'var(--osmos-bg-subtle)' }}>
+              <FinanceAdvertiserManagementPage />
             </main>
           </>
         );
